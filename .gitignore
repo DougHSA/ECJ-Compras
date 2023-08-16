@@ -48,3 +48,5 @@ _ReSharper*/
 *.dotSettings
 *.nunit
 *.VisualState.xml
+/.vs/ECJ-Compras/v17/.suo
+/.vs/ECJ-Compras/FileContentIndex/
