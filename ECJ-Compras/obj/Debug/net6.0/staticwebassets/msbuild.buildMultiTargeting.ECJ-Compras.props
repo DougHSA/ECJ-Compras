@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ECJ-Compras.props" />
+</Project>

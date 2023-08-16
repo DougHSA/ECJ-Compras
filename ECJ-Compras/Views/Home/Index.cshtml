@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Bem Vindo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/home.css" />
+    <style>
+        .welcome {
+            display: flex;
+            height: 80px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .row {
+            justify-content: space-around;
+        }
+
+        .card {
+            background-color: goldenrod;
+            height: 100%;
+        }
+
+        .table {
+            margin: 0;
+            border: solid;
+            height: 100%;
+        }
+
+        .div-tabela {
+            padding-left: 10px;
+            padding-right: 10px;
+            height: 68%;
+        }
+
+        .col-md-5 {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.5) !important;
+            padding: 0;
+        }
+
+        .card-body {
+            height: 100px;
+        }
+
+        .col-md-11 {
+            padding: 0;
+        }
+    </style>
+</head>
+
+<div class="text-center">
+    <div class="welcome">
+        <h1>Bem-Vindo ao Site da Equipe de Compras do V EJC Dom Bosco</h1>
+    </div>
+    <div>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div style="display:flex; justify-content:center; align-items:center; height: 80px;">
+                            <h1 style="margin:0;">Entrada</h1>
+                            <i class="fas fa-arrow-up" style="color: green; font-size: 33px; margin-left:10px;"></i>
+                        </div>
+                        <div class="div-tabela">
+                            <table class="table table-light table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="170px">Descrição</th>
+                                        <th width="100px">Valor</th>
+                                        <th>Data</th>
+                                        <th>Pagamento</th>
+                                        <th>Autor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var entrada in ViewBag.ListaEntrada)
+                                    {
+                                        <tr>
+                                            <td>@entrada.Descricao</td>
+                                            <td>@string.Format("{0:C}",entrada.Valor)</td>
+                                            <td>@entrada.Data</td>
+                                            <td>@entrada.MetodoPagamento</td>
+                                            <td>@entrada.Usuario.Nome</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h4 class="card-title">Total Geral:</h4>
+                                    <h5 class="card-text">@ViewBag.TotalEntrada</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="card">
+                        <div style="display:flex; justify-content:center; align-items:center; height: 80px;">
+                            <i class="fas fa-arrow-down" style="color: red; font-size: 33px; margin-right:10px;"></i>
+                            <h1 style="margin:0;">Saída</h1>
+                        </div>
+                        <div class="div-tabela">
+                            <table class="table table-light table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="170px">Descrição</th>
+                                        <th width="100px">Valor</th>
+                                        <th>Data</th>
+                                        <th>Pagamento</th>
+                                        <th>Autor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var saida in ViewBag.ListaSaida)
+                                    {
+                                        <tr>
+                                            <td>@saida.Descricao</td>
+                                            <td>@string.Format("{0:C}",saida.Valor)</td>
+                                            <td>@saida.Data</td>
+                                            <td>@saida.MetodoPagamento</td>
+                                            <td>@saida.Usuario.Nome</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h4 class="card-title">Total Geral:</h4>
+                                    <h5 class="card-text">@ViewBag.TotalSaida</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:30px;">
+                <div class="col-md-11">
+                    <div class="card">
+                        <div class="card-body" style="display: flex; flex-wrap: nowrap;justify-content: space-around;">
+                            <div>
+                                <h4 class="card-title">Saldo:</h4>
+                                <h5 class="card-text" id="saldo-geral">@ViewBag.SaldoGeral</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/home.js"></script>

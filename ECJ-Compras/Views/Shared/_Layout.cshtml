@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .titulo1{
+            font-size: 15px;
+            color:aliceblue;
+        }
+        .titulo2 {
+            font-family: 'Alishba Regular';
+            font-size:25px;
+            color:azure;
+        }
+        nav{
+            background-color: goldenrod;
+        }
+
+        .navbar-nav{
+            padding: 0 10px;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            width: 100%;
+            place-content: center;
+            justify-content: space-evenly;
+        }
+        .navbar-expand-lg .navbar-collapse {
+            justify-content:center;
+        }
+
+        .shadow {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.5) !important;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 25px;
+            text-align: center;
+            background-color: goldenrod;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        main {
+            padding: 20px;
+            padding-bottom: 0;
+            box-sizing: border-box;
+            background-color: midnightblue;
+            color:azure;
+        }
+        .container{
+            margin:0;
+            padding:0;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255,255,255,.8);
+            font-weight: 500;
+        }
+
+        .dropdown-menu{
+            background-color: darkgoldenrod;
+        }
+
+        .dropdown-item{
+            color: azure;
+        }
+
+        .navbar{
+            padding-right: 0.5rem;
+        }
+
+        .pb-3 {
+            padding-bottom: 1.3rem !important;
+        }
+
+        #logout{
+            color: rgba(255,255,255,.8);
+            font-weight: 500;
+            background-color: unset;
+            border: hidden;
+            font-size:14px;
+        }
+        
+        .dropdown-divider{
+            margin:0;
+        }
+
+        .dropdown-menu{
+            padding:0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark shadow">
+            <a class="navbar-brand" href="/Home/Index" style="padding: 0 20px;">
+                <h2 class="titulo1">EJC</h2>
+                <h1 class="titulo2">Dom Bosco</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto topnav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-exchange-alt"></i> Lançamentos
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Lancamento/Entrada">Entrada</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Lancamento/Saida">Saída</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Transacoes/Index">
+                            <i class="fas fa-history"></i> Histórico de Transações
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-search"></i> Consulta
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Usuarios/Index">
+                            <i class="fas fa-users"></i> Usuarios
+                        </a>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-light" id="logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="modal" id="loadingModal">
+            <div class="modal-content">
+                <div class="loader"></div>
+                <p>Carregando...</p>
+            </div>
+        </div>
+        <main role="main" id="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

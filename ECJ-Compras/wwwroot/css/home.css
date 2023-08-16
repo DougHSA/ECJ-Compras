@@ -1,0 +1,10 @@
+@media (max-width: 768px){
+    .row > * {
+        margin-bottom:40px;
+    }
+    .div-tabela {
+        padding: 0;
+        contain: content;
+        overflow-x: auto;
+    }
+}
