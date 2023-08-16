@@ -1,6 +1,50 @@
-arquivos_temporarios/
+# Arquivos gerados automaticamente
+obj/
+bin/
+
+# Arquivos de configuração
+*.user
+*.suo
+*.appxManifest
+*.vscode
+
+# Cache e arquivos temporários
+[Tt]humbs.db
+*.DS_Store
+*.tmp
+*.temp
+
+# Arquivos de log
 *.log
-node_modules/
-.env
-.suo
-FileContentIndex/
+
+# Arquivos de compilação
+*.dll
+*.exe
+*.pdb
+*.dll.config
+
+# Diretório de pacotes NuGet
+packages/
+
+# Visual Studio
+.vscode/
+.vs/
+*.sln.ide
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.docstates
+
+# Rider
+.idea/
+*.iml
+
+# Ferramentas de build e pacotes
+_ReSharper.*
+*.ReSharper*
+*.resharper.user
+_ReSharper*/
+*.dotCover
+*.dotSettings
+*.nunit
+*.VisualState.xml
