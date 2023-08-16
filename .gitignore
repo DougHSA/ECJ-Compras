@@ -1,0 +1,6 @@
+arquivos_temporarios/
+*.log
+node_modules/
+.env
+.suo
+FileContentIndex/
