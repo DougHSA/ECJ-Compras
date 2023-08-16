@@ -17,8 +17,6 @@ using NuGet.Common;
 
 namespace ECJ_Compras.Controllers
 {
-    //[ApiController]
-    //[Route("[controller]")]
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
