@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\ECJ-Compras.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\css\\doacao.css",
+      "PackagePath": "staticwebassets\\css\\doacao.css"
+    },
+    {
       "Id": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\css\\home.css",
       "PackagePath": "staticwebassets\\css\\home.css"
     },
@@ -43,6 +47,10 @@
     {
       "Id": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\imgs\\EJC_DomBosco.jpeg",
       "PackagePath": "staticwebassets\\imgs\\EJC_DomBosco.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\js\\doacao.js",
+      "PackagePath": "staticwebassets\\js\\doacao.js"
     },
     {
       "Id": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\js\\home.js",

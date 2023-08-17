@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+Q2tdB5duffow5O3p11uEgPnq4BRLUdz4oSv+EeZlOA=",
+  "Hash": "fxVTbk6vpsnBFjZnn8oJp7sl0aEryQZrgoez/lOUhzA=",
   "Source": "ECJ-Compras",
   "BasePath": "_content/ECJ-Compras",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\ECJ-Compras.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\css\\doacao.css",
+      "SourceId": "ECJ-Compras",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\",
+      "BasePath": "_content/ECJ-Compras",
+      "RelativePath": "css/doacao.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\doacao.css"
     },
     {
       "Identity": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\css\\home.css",
@@ -219,6 +236,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\imgs\\EJC_DomBosco.jpeg"
+    },
+    {
+      "Identity": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\js\\doacao.js",
+      "SourceId": "ECJ-Compras",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\",
+      "BasePath": "_content/ECJ-Compras",
+      "RelativePath": "js/doacao.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\doacao.js"
     },
     {
       "Identity": "C:\\Users\\Dougl\\OneDrive\\Documents\\Projetos\\ECJ-Compras\\ECJ-Compras\\wwwroot\\js\\home.js",
