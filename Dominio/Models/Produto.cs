@@ -13,9 +13,9 @@ public partial class Produto
 
     public string? Unidade { get; set; }
 
-    public int QuantidadeMinimaParaPontos { get; set; }
+    public double QuantidadeMinimaParaPontos { get; set; }
 
-    public string Pontos { get; set; } = null!;
+    public int Pontos { get; set; }
 
     public virtual ICollection<Doacao> Doacoes { get; set; } = new List<Doacao>();
 }

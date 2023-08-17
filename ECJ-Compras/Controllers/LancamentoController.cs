@@ -21,6 +21,7 @@ namespace ECJ_Compras.Controllers
             _emailService = emailService;
         }
         #region Entrada
+        [Authorize]
         public IActionResult Entrada(int? page = null)
         {
             var listaEntrada = _transacaoService.BuscarTransacoesEntrada(VerificarUsuario());
@@ -35,14 +36,14 @@ namespace ECJ_Compras.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult InserirEntrada(TransacaoDto transacao)
+        public IActionResult InserirEntrada(TransacaoDto transacaoDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _transacaoService.InserirNovaEntrada(transacao, VerificarUsuario());
-                    _emailService.EnviarEmail();
+                    var transacao = _transacaoService.InserirNovaEntrada(transacaoDto, VerificarUsuario());
+                    _emailService.EnviarEmailNovaTransacao(transacao);
                 }
                 else
                 {
@@ -62,8 +63,8 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                _transacaoService.DeletarEntrada(id);
-                _emailService.EnviarEmail();
+                var transacao = _transacaoService.DeletarEntrada(id);
+                _emailService.EnviarEmailDeletarTransacao(transacao);
                 return RedirectToAction("Entrada");
             }
             catch (Exception ex)
@@ -83,14 +84,14 @@ namespace ECJ_Compras.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult InserirSaida(TransacaoDto transacao)
+        public IActionResult InserirSaida(TransacaoDto transacaoDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _transacaoService.InserirNovaSaida(transacao, VerificarUsuario());
-                    _emailService.EnviarEmail();
+                    var transacao = _transacaoService.InserirNovaSaida(transacaoDto, VerificarUsuario());
+                    _emailService.EnviarEmailNovaTransacao(transacao);
                 }
                 else
                 {
@@ -110,8 +111,8 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                _transacaoService.DeletarSaida(id);
-                _emailService.EnviarEmail();
+                var transacao = _transacaoService.DeletarSaida(id);
+                _emailService.EnviarEmailDeletarTransacao(transacao);
                 return RedirectToAction("Saida");
             }
             catch (Exception ex)

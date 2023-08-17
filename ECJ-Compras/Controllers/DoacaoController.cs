@@ -20,9 +20,9 @@ namespace ECJ_Compras.Controllers
             _doacaoService = doacaoService;
             _emailService = emailService;
         }
+        [Authorize]
         public IActionResult Index(int? page = null)
         {
-            return View();
             var listaDoacoes = _doacaoService.BuscarDoacoes();
             if (listaDoacoes.Any())
             {
@@ -35,20 +35,20 @@ namespace ECJ_Compras.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult InserirDoacao(DoacaoDto doacao)
+        public IActionResult InserirDoacao(DoacaoDto doacaoDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _doacaoService.InserirNovaDoacao(doacao);
-                    _emailService.EnviarEmail();
+                    var doacao = _doacaoService.InserirNovaDoacao(doacaoDto);
+                    _emailService.EnviarEmailNovaDoacao(doacao,VerificarUsuario());
                 }
                 else
                 {
                     throw new Exception("Preencha todos os campos.");
                 }
-                return RedirectToAction("Entrada");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -62,9 +62,9 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                _doacaoService.DeletarDoacao(id);
-                _emailService.EnviarEmail();
-                return RedirectToAction("Entrada");
+                var doacao = _doacaoService.DeletarDoacao(id);
+                _emailService.EnviarEmailDeletarDoacao(doacao, VerificarUsuario());
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

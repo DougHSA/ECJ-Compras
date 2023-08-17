@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Dominio.Context;
 
@@ -10,7 +11,7 @@ public partial class EjcContext : DbContext
     public EjcContext()
     {
     }
-
+    
     public EjcContext(DbContextOptions<EjcContext> options)
         : base(options)
     {
@@ -27,7 +28,7 @@ public partial class EjcContext : DbContext
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        //=> optionsBuilder.UseSqlServer("workstation id=ejc-compras.mssql.somee.com;packet size=4096;user id=EJC-Compras_SQLLogin_1;pwd=ea177ec8yu;data source=ejc-compras.mssql.somee.com;persist security info=False;initial catalog=ejc-compras;TrustServerCertificate=true;");
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-J4P1J3V;Database=EJC;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,11 +37,11 @@ public partial class EjcContext : DbContext
         {
             entity.Property(e => e.Data).HasColumnType("datetime");
 
-            entity.HasOne(d => d.IdPessoaNavigation).WithMany(p => p.Doacoes)
+            entity.HasOne(d => d.Pessoa).WithMany(p => p.Doacoes)
                 .HasForeignKey(d => d.IdPessoa)
                 .HasConstraintName("FK_Doacoes_Pessoas");
 
-            entity.HasOne(d => d.IdProdutoNavigation).WithMany(p => p.Doacoes)
+            entity.HasOne(d => d.Produto).WithMany(p => p.Doacoes)
                 .HasForeignKey(d => d.IdProduto)
                 .HasConstraintName("FK_Doacoes_Produtos");
         });
@@ -60,9 +61,6 @@ public partial class EjcContext : DbContext
             entity.Property(e => e.Categoria)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.Pontos)
-                .HasMaxLength(10)
-                .IsFixedLength();
             entity.Property(e => e.Unidade)
                 .HasMaxLength(50)
                 .IsUnicode(false);

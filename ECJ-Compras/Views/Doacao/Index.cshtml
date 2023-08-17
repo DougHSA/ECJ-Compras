@@ -70,7 +70,7 @@
         <div class="principal">
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-body">
-                    <form action="InserirDoacao" method="post">
+                    <form action="/Doacao/InserirDoacao" method="post">
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 @Html.LabelFor(d=>d.EquipePessoa,"Equipe", new{@class="form-label"})
@@ -129,9 +129,9 @@
                             </thead>
                             <tbody>
                                 @{
-                                    if (ViewBag.ListaDoacao != null)
+                                    if (ViewBag.ListaDoacoes != null)
                                     {
-                                        foreach (var doacao in ViewBag.ListaDoacao)
+                                        foreach (var doacao in ViewBag.ListaDoacoes)
                                         {
                                             <tr>
                                                 <td hidden="hidden">@doacao.Id</td>
@@ -139,10 +139,10 @@
                                                 <td>@doacao.Pessoa.Equipe</td>
                                                 <td>@doacao.Data</td>
                                                 <td>@doacao.Produto.Categoria</td>
-                                                <td>@doacao.Produto.Quantidade</td>
+                                                <td>@doacao.Quantidade</td>
                                                 <td>@doacao.Produto.Unidade</td>
                                                 <td>
-                                                    <a href="/Docao/DeletarDoacao/@doacao.Id">
+                                                    <a href="/Doacao/DeletarDoacao/@doacao.Id">
                                                         <i class="fas fa-times-circle" style="color: red;"></i>
                                                     </a>
                                                 </td>
@@ -187,10 +187,10 @@
                     a.className = "page-link";
                     a.textContent = i;
 
-                    if (document.URL.includes("Entrada?")) {
+                    if (document.URL.includes("Index?")) {
                         a.href = "?page=" + i;
                     } else {
-                        a.href = "Entrada?page=" + i;
+                        a.href = "Index?page=" + i;
                     }
 
                     if (i === currentPage) {

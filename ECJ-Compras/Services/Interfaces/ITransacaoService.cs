@@ -6,11 +6,11 @@ namespace ECJ_Compras.Services.Interfaces
     public interface ITransacaoService
     {
         List<Transacao> BuscarTransacoesEntrada(string nomeUsuario = null);
-        void InserirNovaEntrada(TransacaoDto transacao, string nomeUsuario);
-        void DeletarEntrada(int id);
+        Transacao InserirNovaEntrada(TransacaoDto transacao, string nomeUsuario);
+        Transacao DeletarEntrada(int id);
 
         List<Transacao> BuscarTransacoesSaida(string nomeUsuario = null);
-        void InserirNovaSaida(TransacaoDto transacao, string nomeUsuario);
-        void DeletarSaida(int id);
+        Transacao InserirNovaSaida(TransacaoDto transacao, string nomeUsuario);
+        Transacao DeletarSaida(int id);
     }
 }

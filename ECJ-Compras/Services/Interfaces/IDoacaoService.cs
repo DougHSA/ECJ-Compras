@@ -6,8 +6,8 @@ namespace ECJ_Compras.Services.Interfaces
     public interface IDoacaoService
     {
         List<Doacao> BuscarDoacoes();
-        void InserirNovaDoacao(DoacaoDto doacao);
-        void DeletarDoacao(int id);
+        Doacao InserirNovaDoacao(DoacaoDto doacao);
+        Doacao DeletarDoacao(int id);
         string[] BuscarEquipes();
         string[] BuscarNomes(string equipe);
         string[] BuscarProdutos();
