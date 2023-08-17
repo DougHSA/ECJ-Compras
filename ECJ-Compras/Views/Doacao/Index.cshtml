@@ -4,7 +4,7 @@
 }
 @model ECJ_Compras.Dto.DoacaoDto
 <head>
-    <link rel="stylesheet" href="~/css/lancamento.css" />
+    <link rel="stylesheet" href="~/css/doacao.css" />
     <style>
         .titulo {
             display: flex;
@@ -64,50 +64,44 @@
 
 <div class="text-center">
     <div class="titulo">
-        <h1>Lançamento de Entrada</h1>
+        <h1>Doação</h1>
     </div>
     <div>
         <div class="principal">
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-body">
-                    <form action="InserirEntrada" method="post">
+                    <form action="InserirDoacao" method="post">
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="equipePessoa" class="form-label">Equipe</label>
+                                @Html.LabelFor(d=>d.EquipePessoa,"Equipe", new{@class="form-label"})
                                 <select class="form-select" id="equipePessoa" name="EquipePessoa" required>
                                     <option value="">Selecione uma equipe</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="nomePessoa" class="form-label">Nome</label>
+                            <div class="form-group col-md-8">
+                                @Html.LabelFor(d=>d.NomePessoa,"Nome", new{@class="form-label"})
                                 <select class="form-select" id="nomePessoa" name="NomePessoa" required>
                                     <option value="">Selecione um integrante</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="categoriaProduto" class="form-label">Nome</label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(d=>d.CategoriaProduto,"Categoria", new{@class="form-label"})
                                 <select class="form-select" id="categoriaProduto" name="CategoriaProduto" required>
                                     <option value="">Selecione um produto</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-2">
-                                <label for="valor" class="form-label">Valor</label>
-                                <input type="text" class="form-control" id="valor" name="Valor" required>
+                            <div class="form-group col-md-3">
+                                @Html.LabelFor(d=>d.QuantidadeProduto,"Quantidade", new{@class="form-label"})
+                                @Html.TextBoxFor(d=>d.QuantidadeProduto,"", new{@class="form-control"})
                             </div>
-                            <div class="form-group col-md-2">
-                                @Html.LabelFor(u=>u.UnidadeProduto,"Unidade", new{@class="form-label"})
-                                @Html.TextBoxFor(u=>u.UnidadeProduto,"", new{@class="form-control",@id="unidadeProduto",@readonly=true})
-                                @*<label for="unidadeProduto" class="form-label">Valor</label>
-                                <input type="text" class="form-control" id="unidadeProduto" name="UnidadeProduto" disabled>*@
+                            <div class="form-group col-md-3">
+                                @Html.LabelFor(d=>d.UnidadeProduto,"Unidade", new{@class="form-label"})
+                                @Html.TextBoxFor(d=>d.UnidadeProduto,"", new{@class="form-control",@readonly=true})
                             </div>
                         </div>
                         <div class="form-row">
-                            @* <div class="form-group col-md-6">
-                            <label for="data" class="form-label">Data</label>
-                            <input type="date" class="form-control" id="data" name="Data" required>
-                            </div>*@
-                            <div class="form-group col-md-6">
-                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                         <button type="reset" onclick="limpar()" class="btn btn-light">Limpar</button>
@@ -117,37 +111,38 @@
             <div class="card">
                 <div class="card-body" style="padding-top: 0;">
                     <div style="display:flex; justify-content:center; align-items:center; height: 80px;">
-                        <h1 style="margin:0;">Suas Entradas</h1>
-                        <i class="fas fa-arrow-up" style="color: green; font-size: 33px; margin-left:10px;"></i>
+                        <h1 style="margin:0;">Doações</h1>
                     </div>
                     <div class="div-tabela">
                         <table class="table table-light table-hover">
                             <thead>
                                 <tr>
                                     <th hidden="hidden"></th>
-                                    <th>Descrição</th>
-                                    <th width="100px">Valor</th>
+                                    <th>Nome</th>
+                                    <th>Equipe</th>
                                     <th>Data</th>
-                                    <th>Pagamento</th>
-                                    <th>Autor</th>
+                                    <th>Produto</th>
+                                    <th>Quantidade</th>
+                                    <th>Unidade</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @{
-                                    if (ViewBag.ListaEntrada != null)
+                                    if (ViewBag.ListaDoacao != null)
                                     {
-                                        foreach (var entrada in ViewBag.ListaDoacao)
+                                        foreach (var doacao in ViewBag.ListaDoacao)
                                         {
                                             <tr>
-                                                <td hidden="hidden">@entrada.Id</td>
-                                                <td>@entrada.Descricao</td>
-                                                <td>@string.Format("{0:C}",entrada.Valor)</td>
-                                                <td>@entrada.Data</td>
-                                                <td>@entrada.MetodoPagamento</td>
-                                                <td>@entrada.Usuario.Nome</td>
+                                                <td hidden="hidden">@doacao.Id</td>
+                                                <td>@doacao.Pessoa.Nome</td>
+                                                <td>@doacao.Pessoa.Equipe</td>
+                                                <td>@doacao.Data</td>
+                                                <td>@doacao.Produto.Categoria</td>
+                                                <td>@doacao.Produto.Quantidade</td>
+                                                <td>@doacao.Produto.Unidade</td>
                                                 <td>
-                                                    <a href="/Lancamento/DeletarEntrada/@entrada.Id">
+                                                    <a href="/Docao/DeletarDoacao/@doacao.Id">
                                                         <i class="fas fa-times-circle" style="color: red;"></i>
                                                     </a>
                                                 </td>
@@ -177,7 +172,9 @@
             let itemsPerPage = 5;
             let totalPages = Math.ceil(tabelaCountValor / itemsPerPage);
             let currentPage = 1;
-
+            if (document.URL.includes("?page=")) {
+                currentPage = parseInt(document.URL.replace("#", "").substring(document.URL.lastIndexOf("=") + 1))
+            }
             function updatePagination() {
                 paginationElement.innerHTML = "";
 

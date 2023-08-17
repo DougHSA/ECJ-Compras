@@ -20,8 +20,9 @@ namespace ECJ_Compras.Controllers
             _doacaoService = doacaoService;
             _emailService = emailService;
         }
-        public IActionResult Doacao(int? page = null)
+        public IActionResult Index(int? page = null)
         {
+            return View();
             var listaDoacoes = _doacaoService.BuscarDoacoes();
             if (listaDoacoes.Any())
             {
@@ -71,32 +72,32 @@ namespace ECJ_Compras.Controllers
             }
         }
 
-        /*public IActionResult BuscarEquipes()
+        public IActionResult BuscarEquipes()
         {
-            string[] result = _pessoaService.BuscarEquipes();
+            string[] result = _doacaoService.BuscarEquipes();
             Array.Sort(result);
 
             return Json(result);
         }
         public IActionResult BuscarNomes(string equipe)
         {
-            string[] result = _pessoaService.BuscarNomes(equipe);
+            string[] result = _doacaoService.BuscarNomes(equipe);
             Array.Sort(result);
 
             return Json(result);
         }
         public IActionResult BuscarProdutos()
         {
-            string[] result = _produtoService.BuscarProdutos();
+            string[] result = _doacaoService.BuscarProdutos();
             Array.Sort(result);
 
             return Json(result);
         }
         public IActionResult BuscarUnidade(string produto)
         {
-            string result = _produtoService.BuscarUnidade(produto);
+            string result = _doacaoService.BuscarUnidade(produto);
 
             return Json(result);
-        }*/
+        }
     }
 }
