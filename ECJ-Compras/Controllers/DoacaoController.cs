@@ -23,6 +23,9 @@ namespace ECJ_Compras.Controllers
         [Authorize]
         public IActionResult Index(int? page = null)
         {
+            string role = VerificarRole();
+            ViewBag.Autorizacao = role;
+
             var listaDoacoes = _doacaoService.BuscarDoacoes();
             if (listaDoacoes.Any())
             {
@@ -39,21 +42,15 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var doacao = _doacaoService.InserirNovaDoacao(doacaoDto);
-                    _emailService.EnviarEmailNovaDoacao(doacao,VerificarUsuario());
-                }
-                else
-                {
-                    throw new Exception("Preencha todos os campos.");
-                }
-                return RedirectToAction("Index");
+                var doacao = _doacaoService.InserirNovaDoacao(doacaoDto);
+                _emailService.EnviarEmailNovaDoacao(doacao,VerificarUsuario());
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             }
+            return RedirectToAction("Index");
         }
 
         [HttpGet("/Doacao/DeletarDoacao/{id}")]
@@ -64,24 +61,18 @@ namespace ECJ_Compras.Controllers
             {
                 var doacao = _doacaoService.DeletarDoacao(id);
                 _emailService.EnviarEmailDeletarDoacao(doacao, VerificarUsuario());
-                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível deletar a transação");
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             }
+             return RedirectToAction("Index");
         }
 
         public IActionResult BuscarEquipes()
         {
             string[] result = _doacaoService.BuscarEquipes();
-            Array.Sort(result);
-
-            return Json(result);
-        }
-        public IActionResult BuscarNomes(string equipe)
-        {
-            string[] result = _doacaoService.BuscarNomes(equipe);
             Array.Sort(result);
 
             return Json(result);

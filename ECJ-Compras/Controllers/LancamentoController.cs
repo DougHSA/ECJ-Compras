@@ -21,9 +21,11 @@ namespace ECJ_Compras.Controllers
             _emailService = emailService;
         }
         #region Entrada
-        [Authorize]
+        [Authorize(Roles = "adm")]
         public IActionResult Entrada(int? page = null)
         {
+            string role = VerificarRole();
+            ViewBag.Autorizacao = role;
             var listaEntrada = _transacaoService.BuscarTransacoesEntrada(VerificarUsuario());
             if (listaEntrada.Any())
             {
@@ -35,7 +37,7 @@ namespace ECJ_Compras.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles ="adm")]
         public IActionResult InserirEntrada(TransacaoDto transacaoDto)
         {
             try
@@ -65,17 +67,20 @@ namespace ECJ_Compras.Controllers
             {
                 var transacao = _transacaoService.DeletarEntrada(id);
                 _emailService.EnviarEmailDeletarTransacao(transacao);
-                return RedirectToAction("Entrada");
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível deletar a transação");
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             }
+            return RedirectToAction("Entrada");
         }
 
-
+        [Authorize(Roles = "adm")]
         public IActionResult Saida()
         {
+            string role = VerificarRole();
+            ViewBag.Autorizacao = role;
             var listaSaida = _transacaoService.BuscarTransacoesSaida(VerificarUsuario());
             if (listaSaida.Any())
                 ViewBag.ListaSaida = listaSaida.OrderByDescending(e => e.Data).Take(5);
@@ -88,21 +93,15 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var transacao = _transacaoService.InserirNovaSaida(transacaoDto, VerificarUsuario());
-                    _emailService.EnviarEmailNovaTransacao(transacao);
-                }
-                else
-                {
-                    throw new Exception("Preencha todos os campos.");
-                }
-                return RedirectToAction("Saida");
+                var transacao = _transacaoService.InserirNovaSaida(transacaoDto, VerificarUsuario());
+                _emailService.EnviarEmailNovaTransacao(transacao);
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             }
+            return RedirectToAction("Saida");
         }
 
         [HttpGet("/Lancamento/DeletarSaida/{id}")]
@@ -113,12 +112,13 @@ namespace ECJ_Compras.Controllers
             {
                 var transacao = _transacaoService.DeletarSaida(id);
                 _emailService.EnviarEmailDeletarTransacao(transacao);
-                return RedirectToAction("Saida");
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível deletar a transação");
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             }
+            return RedirectToAction("Saida");
         }
 
         public IActionResult BuscarMetodosDePagamento()

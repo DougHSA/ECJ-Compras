@@ -78,25 +78,18 @@
                                     <option value="">Selecione uma equipe</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-8">
-                                @Html.LabelFor(d=>d.NomePessoa,"Nome", new{@class="form-label"})
-                                <select class="form-select" id="nomePessoa" name="NomePessoa" required>
-                                    <option value="">Selecione um integrante</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
+                            
+                            <div class="form-group col-md-4">
                                 @Html.LabelFor(d=>d.CategoriaProduto,"Categoria", new{@class="form-label"})
                                 <select class="form-select" id="categoriaProduto" name="CategoriaProduto" required>
                                     <option value="">Selecione um produto</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
                                 @Html.LabelFor(d=>d.QuantidadeProduto,"Quantidade", new{@class="form-label"})
                                 @Html.TextBoxFor(d=>d.QuantidadeProduto,"", new{@class="form-control"})
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
                                 @Html.LabelFor(d=>d.UnidadeProduto,"Unidade", new{@class="form-label"})
                                 @Html.TextBoxFor(d=>d.UnidadeProduto,"", new{@class="form-control",@readonly=true})
                             </div>
@@ -118,7 +111,6 @@
                             <thead>
                                 <tr>
                                     <th hidden="hidden"></th>
-                                    <th>Nome</th>
                                     <th>Equipe</th>
                                     <th>Data</th>
                                     <th>Produto</th>
@@ -135,8 +127,7 @@
                                         {
                                             <tr>
                                                 <td hidden="hidden">@doacao.Id</td>
-                                                <td>@doacao.Pessoa.Nome</td>
-                                                <td>@doacao.Pessoa.Equipe</td>
+                                                <td>@doacao.Equipe.Nome</td>
                                                 <td>@doacao.Data</td>
                                                 <td>@doacao.Produto.Categoria</td>
                                                 <td>@doacao.Quantidade</td>

@@ -20,16 +20,16 @@ namespace ECJ_Compras.Services
 
         public List<Doacao> BuscarDoacoes()
         {
-            var doacoes = _context.Doacoes?.Include(u => u.Pessoa).Include(x=>x.Produto).ToList();
+            var doacoes = _context.Doacoes?.Include(u => u.Equipe).Include(x=>x.Produto).ToList();
             return doacoes;
         }
 
         public Doacao InserirNovaDoacao(DoacaoDto doacaoDto)
         {
-            var pessoa = _context.Pessoas.FirstOrDefault(p => p.Nome == doacaoDto.NomePessoa && p.Equipe == doacaoDto.EquipePessoa);
+            var equipe = _context.Equipes.FirstOrDefault(p => p.Nome == doacaoDto.EquipePessoa);
             var produto = _context.Produtos.FirstOrDefault(p => p.Categoria == doacaoDto.CategoriaProduto);
 
-            if (pessoa == null || produto == null)
+            if (equipe == null || produto == null)
                 throw new Exception("Não foi possível adicionar Doação");
 
             produto.Quantidade += doacaoDto.QuantidadeProduto;
@@ -37,27 +37,27 @@ namespace ECJ_Compras.Services
             var doacao = new Doacao()
             {
                 Data = DateTime.Now,
-                IdPessoa = pessoa.Id,
+                IdEquipe = equipe.Id,
                 IdProduto = produto.Id,
                 Quantidade = doacaoDto.QuantidadeProduto
             };
             _context.Doacoes.Add(doacao);
             _context.Produtos.Update(produto);
             _context.SaveChanges();
-            var doacoes = _context.Doacoes.Include(p => p.Pessoa).Include(p => p.Produto)
-                            .Where(d => d.Pessoa.Nome == pessoa.Nome && d.Pessoa.Equipe == pessoa.Equipe)
+            var doacoes = _context.Doacoes.Include(p => p.Equipe).Include(p => p.Produto)
+                            .Where(d => d.Equipe.Nome == equipe.Nome)
                             .GroupBy(p => p.Produto.Categoria)
                             .ToList();
-            pessoa.Pontos = 0;
+            equipe.Pontos = 0;
             foreach (var grupo in doacoes)
             {
                 var qt = grupo.Sum(q => q.Quantidade);
                 var pontosDoProduto = grupo.First().Produto.Pontos;
                 var qtMinimaParaPontuar = grupo.First().Produto.QuantidadeMinimaParaPontos;
                 int pontoNaCategoria = (int)Math.Floor(qt / qtMinimaParaPontuar) * pontosDoProduto;
-                pessoa.Pontos += pontoNaCategoria;
+                equipe.Pontos += pontoNaCategoria;
             }
-            _context.Pessoas.Update(pessoa);
+            _context.Equipes.Update(equipe);
             _context.SaveChanges();
             return doacao;
         }
@@ -66,7 +66,7 @@ namespace ECJ_Compras.Services
         {
             var doacao = _context.Doacoes.FirstOrDefault(t => t.Id == id);
             var produto = _context.Produtos.FirstOrDefault(t=> t.Id == doacao.IdProduto);
-            var pessoa = _context.Pessoas.FirstOrDefault(t => t.Id == doacao.IdPessoa);
+            var equipe = _context.Equipes.FirstOrDefault(t => t.Id == doacao.IdEquipe);
             produto.Quantidade -= doacao.Quantidade;
             if (doacao == null)
                 throw new Exception("");
@@ -74,33 +74,28 @@ namespace ECJ_Compras.Services
             _context.Produtos.Update(produto);
             _context.SaveChanges();
 
-            var doacoes = _context.Doacoes.Include(p => p.Pessoa).Include(p => p.Produto)
-                            .Where(d => d.Pessoa.Nome == pessoa.Nome && d.Pessoa.Equipe == pessoa.Equipe)
+            var doacoes = _context.Doacoes.Include(p => p.Equipe).Include(p => p.Produto)
+                            .Where(d => d.Equipe.Nome == equipe.Nome)
                             .GroupBy(p => p.Produto.Categoria)
                             .ToList();
-            pessoa.Pontos = 0;
+            equipe.Pontos = 0;
             foreach (var grupo in doacoes)
             {
                 var qt = grupo.Sum(q => q.Quantidade);
                 var pontosDoProduto = grupo.First().Produto.Pontos;
                 var qtMinimaParaPontuar = grupo.First().Produto.QuantidadeMinimaParaPontos;
                 int pontoNaCategoria = (int)Math.Floor(qt / qtMinimaParaPontuar) * pontosDoProduto;
-                pessoa.Pontos += pontoNaCategoria;
+                equipe.Pontos += pontoNaCategoria;
             }
-            _context.Pessoas.Update(pessoa); 
+            _context.Equipes.Update(equipe); 
             _context.SaveChanges();
             return doacao;
         }
 
         public string[] BuscarEquipes()
         {
-            string[] result = { "Compras", "Sala","Lt. Interna","Lt. Externa" };
-            return result;
-        }
-
-        public string[] BuscarNomes(string equipe)
-        {
-            string[] result = { "Douglas Andrade", "Amanda", "Italo"};
+            string[] result = _context.Equipes.Select(p => p.Nome).ToArray();
+            Array.Sort(result);
             return result;
         }
 

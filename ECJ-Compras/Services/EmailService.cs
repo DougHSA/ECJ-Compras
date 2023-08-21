@@ -41,7 +41,7 @@ namespace ECJ_Compras.Services
         public async Task EnviarEmailDeletarDoacao(Doacao doacao, string nomeAutor)
         {
             var subject = $"Exclusão de Doação";
-            var plainTextContent = $"Nome: {doacao.Pessoa.Nome}\nEquipe: {doacao.Pessoa.Equipe}\nProduto: {doacao.Produto.Categoria}\nQuantidade: {doacao.Quantidade}{doacao.Produto.Unidade}\nData: {doacao.Data}\nAutor: {nomeAutor}";
+            var plainTextContent = $"Equipe: {doacao.Equipe.Nome}\nProduto: {doacao.Produto.Categoria}\nQuantidade: {doacao.Quantidade}{doacao.Produto.Unidade}\nData: {doacao.Data}\nAutor: {nomeAutor}";
             var msg = MailHelper.CreateSingleEmail(From, To, subject, plainTextContent, null);
             var response = await Client.SendEmailAsync(msg);
         }
@@ -49,7 +49,7 @@ namespace ECJ_Compras.Services
         public async Task EnviarEmailNovaDoacao(Doacao doacao, string nomeAutor)
         {
             var subject = $"Nova Doação";
-            var plainTextContent = $"Nome: {doacao.Pessoa.Nome}\nEquipe: {doacao.Pessoa.Equipe}\nProduto: {doacao.Produto.Categoria}\nQuantidade: {doacao.Quantidade}{doacao.Produto.Unidade}\nData: {doacao.Data}\nAutor: {nomeAutor}";
+            var plainTextContent = $"Equipe: {doacao.Equipe.Nome}\nProduto: {doacao.Produto.Categoria}\nQuantidade: {doacao.Quantidade}{doacao.Produto.Unidade}\nData: {doacao.Data}\nAutor: {nomeAutor}";
             var msg = MailHelper.CreateSingleEmail(From, To, subject, plainTextContent, null);
             var response = await Client.SendEmailAsync(msg);
         }

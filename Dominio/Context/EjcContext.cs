@@ -19,7 +19,7 @@ public partial class EjcContext : DbContext
 
     public virtual DbSet<Doacao> Doacoes { get; set; }
 
-    public virtual DbSet<Pessoa> Pessoas { get; set; }
+    public virtual DbSet<Equipe> Equipes { get; set; }
 
     public virtual DbSet<Produto> Produtos { get; set; }
 
@@ -28,8 +28,8 @@ public partial class EjcContext : DbContext
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //=> optionsBuilder.UseSqlServer("workstation id=ejc-compras.mssql.somee.com;packet size=4096;user id=EJC-Compras_SQLLogin_1;pwd=ea177ec8yu;data source=ejc-compras.mssql.somee.com;persist security info=False;initial catalog=ejc-compras;TrustServerCertificate=true;");
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-J4P1J3V;Database=EJC;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("workstation id=ejc-compras.mssql.somee.com;packet size=4096;user id=EJC-Compras_SQLLogin_1;pwd=ea177ec8yu;data source=ejc-compras.mssql.somee.com;persist security info=False;initial catalog=ejc-compras;TrustServerCertificate=true;");
+        //=> optionsBuilder.UseSqlServer("Data Source=DESKTOP-J4P1J3V;Database=EJC;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,22 +37,19 @@ public partial class EjcContext : DbContext
         {
             entity.Property(e => e.Data).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Pessoa).WithMany(p => p.Doacoes)
-                .HasForeignKey(d => d.IdPessoa)
-                .HasConstraintName("FK_Doacoes_Pessoas");
+            entity.HasOne(d => d.Equipe).WithMany(p => p.Doacoes)
+                .HasForeignKey(d => d.IdEquipe)
+                .HasConstraintName("FK_Doacoes_Equipes");
 
             entity.HasOne(d => d.Produto).WithMany(p => p.Doacoes)
                 .HasForeignKey(d => d.IdProduto)
                 .HasConstraintName("FK_Doacoes_Produtos");
         });
 
-        modelBuilder.Entity<Pessoa>(entity =>
+        modelBuilder.Entity<Equipe>(entity =>
         {
-            entity.Property(e => e.Equipe)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.Nome)
-                .HasMaxLength(200)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 

@@ -13,9 +13,9 @@ public partial class Doacao
 
     public int IdProduto { get; set; }
 
-    public int IdPessoa { get; set; }
+    public int IdEquipe { get; set; }
 
-    public virtual Pessoa Pessoa { get; set; } = null!;
+    public virtual Equipe Equipe { get; set; } = null!;
 
     public virtual Produto Produto { get; set; } = null!;
 }

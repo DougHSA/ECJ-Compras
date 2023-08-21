@@ -9,7 +9,6 @@ namespace ECJ_Compras.Services.Interfaces
         Doacao InserirNovaDoacao(DoacaoDto doacao);
         Doacao DeletarDoacao(int id);
         string[] BuscarEquipes();
-        string[] BuscarNomes(string equipe);
         string[] BuscarProdutos();
         string BuscarUnidade(string produto);
     }
