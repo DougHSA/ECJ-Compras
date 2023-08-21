@@ -54,6 +54,7 @@ namespace ECJ_Compras
             services.AddScoped<IEmailService,EmailService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITransacaoService, TransacaoService>();
+            services.AddScoped<IDoacaoService, DoacaoService>();
 
 
             services.AddControllersWithViews();

@@ -40,25 +40,24 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                
+                var usuario = _authService.Login(login.Usuario, login.Senha);
+                var token = _authService.GerarToken(usuario);
+
+                HttpContext.Response.Cookies.Append("jwtToken", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
                 {
-                    var usuario = _authService.Login(login.Usuario, login.Senha);
-                    var token = _authService.GerarToken(usuario);
+                    HttpOnly = true, // Garante que a cookie só seja acessível pelo servidor
+                    Expires = DateTime.UtcNow.AddHours(24) // Define o tempo de expiração da cookie
+                });
 
-                    HttpContext.Response.Cookies.Append("jwtToken", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
-                    {
-                        HttpOnly = true, // Garante que a cookie só seja acessível pelo servidor
-                        Expires = DateTime.UtcNow.AddHours(24) // Define o tempo de expiração da cookie
-                    });
-                    HttpContext.Response.Cookies.Append("usuario", usuario.Nome);
-
-                    return Redirect("Home/Index");
-                }
-                return BadRequest();
+                return Redirect("Home/Index");
+              
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
+                return RedirectToAction("Index");
             }
 
         }

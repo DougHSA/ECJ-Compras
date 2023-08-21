@@ -20,6 +20,9 @@ namespace ECJ_Compras.Controllers
         [Authorize]
         public IActionResult Index()
         {
+            string role = VerificarRole();
+            ViewBag.Autorizacao = role;
+
             var listaEntrada = _transacaoService.BuscarTransacoesEntrada();
             var listaSaida = _transacaoService.BuscarTransacoesSaida();
 
@@ -50,5 +53,6 @@ namespace ECJ_Compras.Controllers
 
             return View();
         }
+        
     }
 }

@@ -88,12 +88,6 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            @* <div class="form-group col-md-6">
-                            <label for="data" class="form-label">Data</label>
-                            <input type="date" class="form-control" id="data" name="Data" required>
-                            </div>*@
-                            <div class="form-group col-md-6">
-                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                         <button type="reset" onclick="limpar()" class="btn btn-light">Limpar</button>
@@ -177,6 +171,10 @@
             let itemsPerPage = 5;
             let totalPages = Math.ceil(tabelaCountValor / itemsPerPage);
             let currentPage = 1;
+            if (document.URL.includes("?page="))
+            {
+                currentPage = parseInt(document.URL.replace("#", "").substring(document.URL.lastIndexOf("=") + 1))
+            }
 
             function updatePagination() {
                 paginationElement.innerHTML = "";

@@ -1,29 +1,57 @@
 ﻿using SendGrid.Helpers.Mail;
 using SendGrid;
 using ECJ_Compras.Services.Interfaces;
+using Dominio.Models;
 
 namespace ECJ_Compras.Services
 {
-    public class EmailService:IEmailService
+    public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;
+        private readonly string ApiKey;
+        private readonly SendGridClient Client;
+        private readonly EmailAddress From;
+        private readonly EmailAddress To;
 
         public EmailService(IConfiguration config)
         {
             _config = config;
+            ApiKey = _config.GetSection("Smtp").GetSection("Key").Value;
+            Client = new SendGridClient(ApiKey);
+            From =  new EmailAddress("doughsa97@gmail.com", "EJC-Compras");
+            To = new EmailAddress("doughsa97@gmail.com", "Douglas");
         }
 
-        public async Task EnviarEmail()
+        public async Task EnviarEmailDeletarTransacao(Transacao transacao)
         {
-            var apiKey = _config.GetSection("Smtp").GetSection("Key").Value;
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("doughsa97@gmail.com", "EJC-Compras");
-            var subject = "Nova transação de Entrada";
-            var to = new EmailAddress("doughsa97@gmail.com", "Douglas");
-            var plainTextContent = "and easy to do anywhere, even with C#";
-            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
+            var subject = $"Exclusão de transação de {transacao.Tipo}";
+            var plainTextContent = $"Descrição: {transacao.Descricao}\nValor: {string.Format("{0:C}", transacao.Valor)}\nMétodo de Pagamento: {transacao.MetodoPagamento}\nData: {transacao.Data}\nAutor: {transacao.Usuario.Nome}";
+            var msg = MailHelper.CreateSingleEmail(From, To, subject, plainTextContent, null);
+            var response = await Client.SendEmailAsync(msg);
+        }
+
+        public async Task EnviarEmailNovaTransacao(Transacao transacao)
+        {
+            var subject = $"Nova transação de {transacao.Tipo}";
+            var plainTextContent = $"Descrição: {transacao.Descricao}\nValor: {string.Format("{0:C}", transacao.Valor)}\nMétodo de Pagamento: {transacao.MetodoPagamento}\nData: {transacao.Data}\nAutor: {transacao.Usuario.Nome}";
+            var msg = MailHelper.CreateSingleEmail(From, To, subject, plainTextContent, null);
+            var response = await Client.SendEmailAsync(msg);
+        }
+
+        public async Task EnviarEmailDeletarDoacao(Doacao doacao, string nomeAutor)
+        {
+            var subject = $"Exclusão de Doação";
+            var plainTextContent = $"Equipe: {doacao.Equipe.Nome}\nProduto: {doacao.Produto.Categoria}\nQuantidade: {doacao.Quantidade}{doacao.Produto.Unidade}\nData: {doacao.Data}\nAutor: {nomeAutor}";
+            var msg = MailHelper.CreateSingleEmail(From, To, subject, plainTextContent, null);
+            var response = await Client.SendEmailAsync(msg);
+        }
+
+        public async Task EnviarEmailNovaDoacao(Doacao doacao, string nomeAutor)
+        {
+            var subject = $"Nova Doação";
+            var plainTextContent = $"Equipe: {doacao.Equipe.Nome}\nProduto: {doacao.Produto.Categoria}\nQuantidade: {doacao.Quantidade}{doacao.Produto.Unidade}\nData: {doacao.Data}\nAutor: {nomeAutor}";
+            var msg = MailHelper.CreateSingleEmail(From, To, subject, plainTextContent, null);
+            var response = await Client.SendEmailAsync(msg);
         }
     }
 }

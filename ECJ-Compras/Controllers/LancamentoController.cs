@@ -21,8 +21,11 @@ namespace ECJ_Compras.Controllers
             _emailService = emailService;
         }
         #region Entrada
+        [Authorize(Roles = "adm")]
         public IActionResult Entrada(int? page = null)
         {
+            string role = VerificarRole();
+            ViewBag.Autorizacao = role;
             var listaEntrada = _transacaoService.BuscarTransacoesEntrada(VerificarUsuario());
             if (listaEntrada.Any())
             {
@@ -34,15 +37,15 @@ namespace ECJ_Compras.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        public IActionResult InserirEntrada(TransacaoDto transacao)
+        [Authorize(Roles ="adm")]
+        public IActionResult InserirEntrada(TransacaoDto transacaoDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _transacaoService.InserirNovaEntrada(transacao, VerificarUsuario());
-                    _emailService.EnviarEmail();
+                    var transacao = _transacaoService.InserirNovaEntrada(transacaoDto, VerificarUsuario());
+                    _emailService.EnviarEmailNovaTransacao(transacao);
                 }
                 else
                 {
@@ -62,19 +65,22 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                _transacaoService.DeletarEntrada(id);
-                _emailService.EnviarEmail();
-                return RedirectToAction("Entrada");
+                var transacao = _transacaoService.DeletarEntrada(id);
+                _emailService.EnviarEmailDeletarTransacao(transacao);
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível deletar a transação");
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             }
+            return RedirectToAction("Entrada");
         }
 
-
+        [Authorize(Roles = "adm")]
         public IActionResult Saida()
         {
+            string role = VerificarRole();
+            ViewBag.Autorizacao = role;
             var listaSaida = _transacaoService.BuscarTransacoesSaida(VerificarUsuario());
             if (listaSaida.Any())
                 ViewBag.ListaSaida = listaSaida.OrderByDescending(e => e.Data).Take(5);
@@ -83,25 +89,19 @@ namespace ECJ_Compras.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult InserirSaida(TransacaoDto transacao)
+        public IActionResult InserirSaida(TransacaoDto transacaoDto)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    _transacaoService.InserirNovaSaida(transacao, VerificarUsuario());
-                    _emailService.EnviarEmail();
-                }
-                else
-                {
-                    throw new Exception("Preencha todos os campos.");
-                }
-                return RedirectToAction("Saida");
+                var transacao = _transacaoService.InserirNovaSaida(transacaoDto, VerificarUsuario());
+                _emailService.EnviarEmailNovaTransacao(transacao);
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             }
+            return RedirectToAction("Saida");
         }
 
         [HttpGet("/Lancamento/DeletarSaida/{id}")]
@@ -110,14 +110,15 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                _transacaoService.DeletarSaida(id);
-                _emailService.EnviarEmail();
-                return RedirectToAction("Saida");
+                var transacao = _transacaoService.DeletarSaida(id);
+                _emailService.EnviarEmailDeletarTransacao(transacao);
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível deletar a transação");
+                TempData["ErrorMessage"] = ex.Message;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             }
+            return RedirectToAction("Saida");
         }
 
         public IActionResult BuscarMetodosDePagamento()

@@ -25,7 +25,7 @@ namespace ECJ_Compras.Services
             return transacoes;
         }
 
-        public void InserirNovaEntrada(TransacaoDto transacaoDto, string nomeUsuario)
+        public Transacao InserirNovaEntrada(TransacaoDto transacaoDto, string nomeUsuario)
         {
             var cliente = _context.Usuarios.FirstOrDefault(u => u.Nome == nomeUsuario);
             if (cliente == null)
@@ -42,15 +42,17 @@ namespace ECJ_Compras.Services
             };
             _context.Transacoes.Add(transacao);
             _context.SaveChanges();
+            return transacao;
         }
 
-        public void DeletarEntrada(int id)
+        public Transacao DeletarEntrada(int id)
         {
             var transacao = _context.Transacoes.FirstOrDefault(t => t.Id == id);
             if (transacao == null)
                 throw new Exception("");
             _context.Transacoes.Remove(transacao);
             _context.SaveChanges();
+            return transacao;
         }
 
         public List<Transacao> BuscarTransacoesSaida(string nomeUsuario = null)
@@ -61,32 +63,34 @@ namespace ECJ_Compras.Services
             return transacoes;
         }
 
-        public void InserirNovaSaida(TransacaoDto transacao, string nomeUsuario)
+        public Transacao InserirNovaSaida(TransacaoDto transacaoDto, string nomeUsuario)
         {
             var cliente = _context.Usuarios.FirstOrDefault(u => u.Nome == nomeUsuario);
             if (cliente == null)
                 throw new Exception("Não foi possível realizar lançamento.");
-            var valorDecimal = decimal.Parse(Regex.Match(transacao.Valor, "([0-9]+)(,[0-9]{2})").Value);
-            _context.Transacoes.Add(
-                new Transacao
-                {
-                    Data = DateTime.Now,
-                    Descricao = transacao.Descricao,
-                    IdUsuario = cliente.Id,
-                    MetodoPagamento = transacao.MetodoPagamento,
-                    Tipo = EnumTipoTransacao.Saída.ToString(),
-                    Valor = valorDecimal
-                });
+            var valorDecimal = decimal.Parse(Regex.Match(transacaoDto.Valor, "([0-9]+)(,[0-9]{2})").Value);
+            var transacao = new Transacao()
+            {
+                Data = DateTime.Now,
+                Descricao = transacaoDto.Descricao,
+                IdUsuario = cliente.Id,
+                MetodoPagamento = transacaoDto.MetodoPagamento,
+                Tipo = EnumTipoTransacao.Entrada.ToString(),
+                Valor = valorDecimal
+            };
+            _context.Transacoes.Add(transacao);
             _context.SaveChanges();
+            return transacao;
         }
 
-        public void DeletarSaida(int id)
+        public Transacao DeletarSaida(int id)
         {
             var transacao = _context.Transacoes.FirstOrDefault(t => t.Id == id);
             if (transacao == null)
                 throw new Exception("");
             _context.Transacoes.Remove(transacao);
             _context.SaveChanges();
+            return transacao;
         }
     }
 }
