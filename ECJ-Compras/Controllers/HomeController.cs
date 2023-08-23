@@ -5,6 +5,7 @@ using ECJ_Compras.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace ECJ_Compras.Controllers
 {
@@ -42,14 +43,14 @@ namespace ECJ_Compras.Controllers
             ViewBag.ListaEntrada = listaEntradaTabela;
             ViewBag.ListaSaida = listaSaidaTabela;
 
-            ViewBag.TotalEntrada = string.Format("{0:C}", totalEntrada);
-            ViewBag.TotalSaida = string.Format("{0:C}", totalSaida);
+            ViewBag.TotalEntrada = string.Format(new CultureInfo("pt-BR"),"{0:C}", totalEntrada);
+            ViewBag.TotalSaida = string.Format(new CultureInfo("pt-BR"),"{0:C}", totalSaida);
 
-            ViewBag.TotalEntradaTabela = string.Format("{0:C}", totalEntradaTabela);
-            ViewBag.TotalSaidaTabela = string.Format("{0:C}", totalSaidaTabela);
+            ViewBag.TotalEntradaTabela = string.Format(new CultureInfo("pt-BR"),"{0:C}", totalEntradaTabela);
+            ViewBag.TotalSaidaTabela = string.Format(new CultureInfo("pt-BR"),"{0:C}", totalSaidaTabela);
 
-            ViewBag.SaldoGeral = string.Format("{0:C}", saldoGeral);
-            ViewBag.SaldoGeralTabela = string.Format("{0:C}", saldoGeralTabela);
+            ViewBag.SaldoGeral = string.Format(new CultureInfo("pt-BR"),"{0:C}", saldoGeral);
+            ViewBag.SaldoGeralTabela = string.Format(new CultureInfo("pt-BR"),"{0:C}", saldoGeralTabela);
 
             return View();
         }
