@@ -92,7 +92,7 @@ namespace ECJ_Compras.Controllers
             var equipes = _doacaoService.BuscarPontos();
             if (equipes.Any())
             {
-                ViewBag.ListaDoacoes = equipes.OrderByDescending(p=>p.Pontos);
+                ViewBag.ListaEquipes = equipes.OrderByDescending(p=>p.Pontos);
             }
             return View();
         }
