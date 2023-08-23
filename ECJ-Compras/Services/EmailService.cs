@@ -2,6 +2,7 @@
 using SendGrid;
 using ECJ_Compras.Services.Interfaces;
 using Dominio.Models;
+using System.Globalization;
 
 namespace ECJ_Compras.Services
 {
@@ -25,7 +26,7 @@ namespace ECJ_Compras.Services
         public async Task EnviarEmailDeletarTransacao(Transacao transacao)
         {
             var subject = $"Exclusão de transação de {transacao.Tipo}";
-            var plainTextContent = $"Descrição: {transacao.Descricao}\nValor: {string.Format("{0:C}", transacao.Valor)}\nMétodo de Pagamento: {transacao.MetodoPagamento}\nData: {transacao.Data}\nAutor: {transacao.Usuario.Nome}";
+            var plainTextContent = $"Descrição: {transacao.Descricao}\nValor: {string.Format(new CultureInfo("pt-BR"),"{0:C}", transacao.Valor)}\nMétodo de Pagamento: {transacao.MetodoPagamento}\nData: {transacao.Data}\nAutor: {transacao.Usuario.Nome}";
             var msg = MailHelper.CreateSingleEmail(From, To, subject, plainTextContent, null);
             var response = await Client.SendEmailAsync(msg);
         }
@@ -33,7 +34,7 @@ namespace ECJ_Compras.Services
         public async Task EnviarEmailNovaTransacao(Transacao transacao)
         {
             var subject = $"Nova transação de {transacao.Tipo}";
-            var plainTextContent = $"Descrição: {transacao.Descricao}\nValor: {string.Format("{0:C}", transacao.Valor)}\nMétodo de Pagamento: {transacao.MetodoPagamento}\nData: {transacao.Data}\nAutor: {transacao.Usuario.Nome}";
+            var plainTextContent = $"Descrição: {transacao.Descricao}\nValor: {string.Format(new CultureInfo("pt-BR"),"{0:C}", transacao.Valor)}\nMétodo de Pagamento: {transacao.MetodoPagamento}\nData: {transacao.Data}\nAutor: {transacao.Usuario.Nome}";
             var msg = MailHelper.CreateSingleEmail(From, To, subject, plainTextContent, null);
             var response = await Client.SendEmailAsync(msg);
         }
