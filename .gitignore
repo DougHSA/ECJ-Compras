@@ -74,7 +74,9 @@ _ReSharper*/
 /.vs/ECJ-Compras/v17/.futdcache.v2
 /ECJ-Compras/bin/Debug/net6.0/ECJ-Compras.dll
 /ECJ-Compras/bin/Debug/net6.0/ECJ-Compras.pdb
-/ECJ-Compras/obj/Debug/net6.0/ref/ECJ-Compras.dll
-/ECJ-Compras/obj/Debug/net6.0/refint/ECJ-Compras.dll
-/ECJ-Compras/obj/Debug/net6.0/ECJ-Compras.dll
-/ECJ-Compras/obj/Debug/net6.0/ECJ-Compras.pdb
+/ECJ-Compras/obj/*
+/Dominio/bin/*
+/Dominio/bin/Debug/net6.0/Dominio.pdb
+/Dominio/obj/Debug/net6.0/Dominio.dll
+/Dominio/obj/Debug/net6.0/Dominio.pdb
+/ECJ-Compras/bin/*
