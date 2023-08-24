@@ -9,7 +9,5 @@ namespace ECJ_Compras.Dto
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
         public string? CategoriaProduto { get; set; }
-        public double? QuantidadeProduto { get; set; }
-        public string? UnidadeProduto { get; set; }
     }
 }

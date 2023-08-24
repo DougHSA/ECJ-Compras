@@ -92,12 +92,6 @@ namespace ECJ_Compras.Services
             return doacao;
         }
 
-        public List<Equipe> BuscarPontos()
-        {
-            List<Equipe> result = _context.Equipes.ToList();
-            return result;
-        }
-
         public string[] BuscarEquipes()
         {
             string[] result = _context.Equipes.Select(p => p.Nome).ToArray();

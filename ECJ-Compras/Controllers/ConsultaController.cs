@@ -2,6 +2,7 @@
 using Dominio.Models;
 using ECJ_Compras.Dto;
 using ECJ_Compras.Enums;
+using ECJ_Compras.Services;
 using ECJ_Compras.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,27 +13,26 @@ namespace ECJ_Compras.Controllers
 {
     public class ConsultaController : BaseController
     {
-        private readonly IDoacaoService _doacaoService;
-        private readonly ITransacaoService _transacaoService;
+        private readonly IConsultaService _consultaService;
 
-        public ConsultaController(IDoacaoService doacaoService, ITransacaoService transacaoService)
+        public ConsultaController(IConsultaService consultaService)
         {
-            _doacaoService = doacaoService;
-            _transacaoService = transacaoService;
+            _consultaService = consultaService;
         }
+
         [Authorize]
         public IActionResult Lancamentos(int? page = null, int length = 20)
         {
             string role = VerificarRole();
             ViewBag.Autorizacao = role;
 
-            var listaDoacoes = _doacaoService.BuscarDoacoes();
-            if (listaDoacoes.Any())
-            {
-                var lista = listaDoacoes.OrderByDescending(e => e.Data).Skip(((page ?? 1)-1)* length).Take(length);
-                ViewBag.ListaDoacoes = lista;
-                ViewBag.TabelaCount = listaDoacoes.Count();
-            }
+            //var listaDoacoes = _consultaService.BuscarDoacoes();
+            //if (listaDoacoes.Any())
+            //{
+            //    var lista = listaDoacoes.OrderByDescending(e => e.Data).Skip(((page ?? 1)-1)* length).Take(length);
+            //    ViewBag.ListaDoacoes = lista;
+            //    ViewBag.TabelaCount = listaDoacoes.Count();
+            //}
             return View();
         }
 
@@ -42,7 +42,7 @@ namespace ECJ_Compras.Controllers
         {
             try
             {
-                var doacao = _doacaoService.InserirNovaDoacao(doacaoDto);
+                //var doacao = _consultaService.InserirNovaDoacao(doacaoDto);
             }
             catch (Exception ex)
             {
@@ -53,12 +53,12 @@ namespace ECJ_Compras.Controllers
         }
 
         [Authorize]
-        public IActionResult Doacoes(int? page = null, int length = 20)
+        public IActionResult Doacoes(PesquisaDoacoesDto doacaoDto,int? page = null, int length = 20)
         {
             string role = VerificarRole();
             ViewBag.Autorizacao = role;
 
-            var listaDoacoes = _doacaoService.BuscarDoacoes();
+            var listaDoacoes = _consultaService.BuscarDoacoes(doacaoDto);
             if (listaDoacoes.Any())
             {
                 var lista = listaDoacoes.OrderByDescending(e => e.Data).Skip(((page ?? 1) - 1) * length).Take(length);
@@ -67,20 +67,20 @@ namespace ECJ_Compras.Controllers
             }
             return View();
         }
-        [HttpPost]
-        [Authorize]
-        public IActionResult PesquisaDoacao(DoacaoDto doacaoDto)
+
+        public IActionResult BuscarEquipes()
         {
-            try
-            {
-                var doacao = _doacaoService.InserirNovaDoacao(doacaoDto);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
-            }
-            return RedirectToAction("Index");
+            string[] result = _consultaService.BuscarEquipes();
+            Array.Sort(result);
+
+            return Json(result);
+        }
+        public IActionResult BuscarProdutos()
+        {
+            string[] result = _consultaService.BuscarProdutos();
+            Array.Sort(result);
+
+            return Json(result);
         }
 
         [Authorize]
@@ -89,7 +89,7 @@ namespace ECJ_Compras.Controllers
             string role = VerificarRole();
             ViewBag.Autorizacao = role;
 
-            var equipes = _doacaoService.BuscarPontos();
+            var equipes = _consultaService.BuscarPontos();
             if (equipes.Any())
             {
                 ViewBag.ListaEquipes = equipes.OrderByDescending(p=>p.Pontos);

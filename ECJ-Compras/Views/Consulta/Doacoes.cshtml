@@ -3,9 +3,14 @@
     ViewData["Title"] = "Lançamento de Entrada";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model ECJ_Compras.Dto.TransacaoDto
+@model ECJ_Compras.Dto.PesquisaDoacoesDto
 <head>
     <link rel="stylesheet" href="~/css/lancamento.css" />
+    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <style>
         .titulo {
             display: flex;
@@ -65,28 +70,35 @@
 
 <div class="text-center">
     <div class="titulo">
-        <h1>Lançamento de Entrada</h1>
+        <h1>Consulta de Doações</h1>
     </div>
     <div>
         <div class="principal">
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-body">
-                    <form action="InserirEntrada" method="post">
+                    <form action="Doacoes" method="GET">
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="descricao" class="form-label">Descrição</label>
-                                <input type="text" class="form-control" id="descricao" name="Descricao" required>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="valor" class="form-label">Valor</label>
-                                <input type="text" class="form-control" id="valor" name="Valor" required>
-                            </div>
                             <div class="form-group col-md-4">
-                                <label for="metodoPagamento" class="form-label">Pagamento</label>
-                                <select class="form-select" id="metodoPagamento" name="MetodoPagamento" required>
-                                    <option value="">Selecione um método</option>
+                                @Html.LabelFor(d=>d.Equipe,"Equipe", new{@class="form-label"})
+                                <select class="form-select" id="equipePessoaConsulta" name="Equipe">
+                                    <option value="">Selecione uma equipe</option>
                                 </select>
                             </div>
+
+                            <div class="form-group col-md-4">
+                                @Html.LabelFor(d=>d.CategoriaProduto,"Categoria", new{@class="form-label"})
+                                <select class="form-select" id="categoriaProdutoConsulta" name="CategoriaProduto">
+                                    <option value="">Selecione um produto</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 justify-content-center">
+                                @Html.LabelFor(d=>d.DataInicio,"De", new{@class="form-label"})
+                                <input type="date" id="DataInicio" name="DataInicio" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Início" @*style="width: 150px;"onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                            </div>
+                            <div class="form-group col-md-2 justify-content-center">
+                                @Html.LabelFor(d=>d.DataFim,"Até", new{@class="form-label"})
+                                <input type="date" id="DataFim" name="DataFim" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Fim" @*style="width: 150px;" onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                          </div>
                         </div>
                         <div class="form-row">
                         </div>
@@ -148,8 +160,25 @@
             </div>
         </div>
     </div>
-    <script src="~/js/lancamento.js"></script>
+    <script src="~/js/consultaDoacao.js"></script>
+    
     <script>
+        //function onlyNumberAndSlash(event, input) {
+        //    var charCode = (event.which) ? event.which : event.keyCode;
+        //    var currentValue = input.value;
+
+        //    // adiciona ":" automaticamente após 2 caracteres de hora
+        //    if ((currentValue.length === 2 && charCode !== 47) || currentValue.length === 5 && charCode !== 47) {
+        //        input.value = currentValue + '/';
+        //    }
+
+        //    // limita a entrada a 5 caracteres (hh:mm)
+        //    if (currentValue.length === 10) {
+        //        return false;
+        //    }
+
+        //    return true;
+        //};
         $(document).ready(function () {
             var campoValor = $('#valor');
             campoValor.val('R$ 0,00');
@@ -172,8 +201,7 @@
             let itemsPerPage = 5;
             let totalPages = Math.ceil(tabelaCountValor / itemsPerPage);
             let currentPage = 1;
-            if (document.URL.includes("?page="))
-            {
+            if (document.URL.includes("?page=")) {
                 currentPage = parseInt(document.URL.replace("#", "").substring(document.URL.lastIndexOf("=") + 1))
             }
 
@@ -239,4 +267,9 @@
                 // Aqui você pode adicionar lógica para carregar os dados da página selecionada
             });
         });
+
+        function limpar(){
+            $('#datepickerInicio').empty();
+            $('#datepickerFim').empty();
+        }
     </script>
