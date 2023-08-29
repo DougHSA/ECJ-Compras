@@ -3,16 +3,16 @@ obj/
 bin/
 
 # Arquivos de configuração
-*.user
-*.suo
-*.appxManifest
-*.vscode
+/*.user
+/*.suo
+/*.appxManifest
+/*.vscode
 
 # Cache e arquivos temporários
 [Tt]humbs.db
-*.DS_Store
-*.tmp
-*.temp
+/*.DS_Store
+/*.tmp
+/*.temp
 
 # Arquivos de log
 *.log
