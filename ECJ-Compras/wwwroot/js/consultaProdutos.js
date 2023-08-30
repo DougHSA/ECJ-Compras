@@ -1,7 +1,5 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
-
-
-    fetch('/Consulta/BuscarEquipes', {
+    fetch('/Consulta/BuscarOrdenacaoProdutos', {
         method: 'POST',
         //headers: {
         //    'Content-Type': 'application/x-www-form-urlencoded',
@@ -10,7 +8,7 @@
     })
         .then(response => response.json())
         .then(data => {
-            const selectElement = document.getElementById("equipePessoaConsulta");
+            const selectElement = document.getElementById("ordenarProdutos");
             data.forEach(item => {
                 const option = document.createElement("option");
                 option.value = item;
@@ -18,26 +16,6 @@
                 selectElement.appendChild(option);
             });
         });
-
-    fetch('/Consulta/BuscarOrdenacaoDoacao', {
-        method: 'POST',
-        //headers: {
-        //    'Content-Type': 'application/x-www-form-urlencoded',
-        //    'RequestVerificationToken': '@Html.AntiForgeryToken()'
-        //}
-    })
-        .then(response => response.json())
-        .then(data => {
-            const selectElement = document.getElementById("ordenarDoacoes");
-            data.forEach(item => {
-                const option = document.createElement("option");
-                option.value = item;
-                option.text = item;
-                selectElement.appendChild(option);
-            });
-        });
-
-
     fetch('/Consulta/BuscarProdutos', {
         method: 'POST',
         //headers: {
@@ -47,7 +25,7 @@
     })
         .then(response => response.json())
         .then(data => {
-            const selectElement = document.getElementById("categoriaProdutoConsulta");
+            const selectElement = document.getElementById("buscarProdutosConsulta");
             data.forEach(item => {
                 const option = document.createElement("option");
                 option.value = item;

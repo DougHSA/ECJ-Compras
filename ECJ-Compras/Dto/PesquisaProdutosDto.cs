@@ -3,12 +3,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECJ_Compras.Dto
 {
-    public class PesquisaDoacoesDto
+    public class PesquisaProdutosDto
     {
-        public string? Equipe { get; set; }
+        public string Categoria { get; set; } = null!;
+
+        public string? Quantidade { get; set; }
+
+        public string? Unidade { get; set; }
+
         public DateTime? DataInicio { get; set; }
+
         public DateTime? DataFim { get; set; }
-        public string? CategoriaProduto { get; set; }
+
         public string? Ordenar { get; set; }
         public bool OrdenarDecrescente { get; set; }
     }

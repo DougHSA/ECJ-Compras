@@ -6,6 +6,7 @@ using ECJ_Compras.Services;
 using ECJ_Compras.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Emit;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
@@ -21,35 +22,35 @@ namespace ECJ_Compras.Controllers
         }
 
         [Authorize]
-        public IActionResult Lancamentos(int? page = null, int length = 20)
+        public IActionResult Lancamentos(PesquisaLancamentosDto lancamentosDto, int? page = null, int length = 20)
         {
             string role = VerificarRole();
             ViewBag.Autorizacao = role;
 
-            //var listaDoacoes = _consultaService.BuscarDoacoes();
-            //if (listaDoacoes.Any())
-            //{
-            //    var lista = listaDoacoes.OrderByDescending(e => e.Data).Skip(((page ?? 1)-1)* length).Take(length);
-            //    ViewBag.ListaDoacoes = lista;
-            //    ViewBag.TabelaCount = listaDoacoes.Count();
-            //}
+            var listaLancamentos = _consultaService.BuscarLancamentos(lancamentosDto);
+            if (listaLancamentos.Any())
+            {
+                var lista = listaLancamentos.OrderByDescending(e => e.Data).Skip(((page ?? 1) - 1) * length).Take(length);
+                ViewBag.ListaLancamentos = lista;
+                ViewBag.TabelaCount = listaLancamentos.Count();
+            }
             return View();
         }
 
-        [HttpPost]
         [Authorize]
-        public IActionResult PesquisaLancamento(DoacaoDto doacaoDto)
+        public IActionResult Produtos(PesquisaProdutosDto produtosDto, int? page = null, int length = 20)
         {
-            try
+            string role = VerificarRole();
+            ViewBag.Autorizacao = role;
+
+            var listaProdutos = _consultaService.BuscarProdutos(produtosDto);
+            if (listaProdutos.Any())
             {
-                //var doacao = _consultaService.InserirNovaDoacao(doacaoDto);
+                var lista = listaProdutos.OrderByDescending(e => e.Quantidade).Skip(((page ?? 1) - 1) * length).Take(length);
+                ViewBag.ListaProdutos = lista;
+                ViewBag.TabelaCount = listaProdutos.Count();
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-                ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
-            }
-            return RedirectToAction("Index");
+            return View();
         }
 
         [Authorize]
@@ -78,6 +79,50 @@ namespace ECJ_Compras.Controllers
         public IActionResult BuscarProdutos()
         {
             string[] result = _consultaService.BuscarProdutos();
+            Array.Sort(result);
+
+            return Json(result);
+        }
+        public IActionResult BuscarOrdenacaoDoacao()
+        {
+            string[] result = {"Equipe","Produto","Data"};
+            Array.Sort(result);
+
+            return Json(result);
+        }
+
+        public IActionResult BuscarTipos()
+        {
+            string[] result = typeof(EnumTipoTransacao).GetEnumNames();
+            Array.Sort(result);
+
+            return Json(result);
+        }
+        public IActionResult BuscarMetodosPagamentos()
+        {
+            string[] result = typeof(EnumMetodoPagamento).GetEnumNames();
+            Array.Sort(result);
+
+            return Json(result);
+        }
+        public IActionResult BuscarAutores()
+        {
+            string[] result = _consultaService.BuscarAutores();
+            Array.Sort(result);
+            return Json(result);
+        }
+
+        public IActionResult BuscarOrdenacaoLancamentos()
+        {
+            string[] result = { "Descrição", "Tipo", "Método de Pagamento", "Valor", "Data" };
+            Array.Sort(result);
+
+            return Json(result);
+        }
+
+        public IActionResult BuscarOrdenacaoProdutos()
+        {
+            string[] result = { "Produto", "Quantidade", "Unidade"};
             Array.Sort(result);
 
             return Json(result);

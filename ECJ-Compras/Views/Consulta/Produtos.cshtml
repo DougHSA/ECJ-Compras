@@ -1,9 +1,9 @@
 ﻿@using System.Globalization;
 @{
-    ViewData["Title"] = "Consulta de Doações";
+    ViewData["Title"] = "Consulta de Produtos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model ECJ_Compras.Dto.PesquisaDoacoesDto
+@model ECJ_Compras.Dto.PesquisaProdutosDto
 <head>
     <link rel="stylesheet" href="~/css/lancamento.css" />
     @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -65,41 +65,28 @@
 
 <div class="text-center">
     <div class="titulo">
-        <h1>Consulta de Doações</h1>
+        <h1>Consulta de Produtos</h1>
     </div>
     <div>
         <div class="principal">
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-body">
-                    <form action="Doacoes" method="GET">
+                    <form action="Produtos" method="GET">
                         <div class="form-row">
-                            <div class="form-group col-md-4">
-                                @Html.LabelFor(d=>d.Equipe,"Equipe", new{@class="form-label"})
-                                <select class="form-select" id="equipePessoaConsulta" name="Equipe">
-                                    <option value="">Selecione uma equipe</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                @Html.LabelFor(d=>d.CategoriaProduto,"Produto", new{@class="form-label"})
-                                <select class="form-select" id="categoriaProdutoConsulta" name="CategoriaProduto">
+                            <div class="form-group col-md-3" style="align-self:baseline;">
+                                @Html.LabelFor(l=>l.Categoria,"Produto", new{@class="form-label"})
+                                <select class="form-select" id="buscarProdutosConsulta" name="Categoria">
                                     <option value="">Selecione um produto</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-2 justify-content-center">
-                                @Html.LabelFor(d=>d.DataInicio,"De", new{@class="form-label"})
-                                <input type="date" id="DataInicio" name="DataInicio" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Início" @*style="width: 150px;"onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                            <div class="form-group col-md-3" style="align-self:baseline;">
+                                @Html.LabelFor(l=>l.Quantidade,"Quantidade", new{@class="form-label"})
+                                @Html.TextBoxFor(l=>l.Quantidade, new {@class="form-control", @type="number", @min="0"})
                             </div>
-                            <div class="form-group col-md-2 justify-content-center">
-                                @Html.LabelFor(d=>d.DataFim,"Até", new{@class="form-label"})
-                                <input type="date" id="DataFim" name="DataFim" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Fim" @*style="width: 150px;" onkeypress="return onlyNumberAndSlash(event, this);"*@ />
-                            </div>
-                        </div>
-                        <div class="form-row" style="justify-content:space-between;">
-                            <div class="form-group col-md-4" style="flex-direction:column;">
-                                <div class="form-row" style="width:100%; ">
+                            <div class="form-group col-md-3" style="flex-direction:column;">
+                                <div class="form-row" style="width:100%;>
                                     @Html.LabelFor(d=>d.Ordenar,"Ordenar por", new{@class="form-label", @style="align-self: center;"})
-                                    <select class="form-select" id="ordenarDoacoes" name="Ordenar">
+                                    <select class="form-select" id="ordenarProdutos" name="Ordenar">
                                         <option value="">Selecione um valor</option>
                                     </select>
                                 </div>
@@ -127,31 +114,27 @@
             <div class="card">
                 <div class="card-body" style="padding-top: 0;">
                     <div style="display:flex; justify-content:center; align-items:center; height: 80px;">
-                        <h1 style="margin:0;">Doações</h1>
+                        <h1 style="margin:0;">Produtos</h1>
                     </div>
                     <div class="div-tabela">
                         <table class="table table-light table-hover">
                             <thead>
                                 <tr>
-                                    <th>Equipe</th>
                                     <th>Produto</th>
                                     <th>Quantidade</th>
                                     <th>Unidade</th>
-                                    <th>Data</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @{
-                                    if (ViewBag.ListaDoacoes != null)
+                                    if (ViewBag.ListaProdutos != null)
                                     {
-                                        foreach (var doacao in ViewBag.ListaDoacoes)
+                                        foreach (var produto in ViewBag.ListaProdutos)
                                         {
                                             <tr>
-                                                <td>@doacao.Equipe.Nome</td>
-                                                <td>@doacao.Produto.Categoria</td>
-                                                <td>@doacao.Quantidade</td>
-                                                <td>@doacao.Produto.Unidade</td>
-                                                <td>@doacao.Data</td>
+                                                <td>@produto.Categoria</td>
+                                                <td>@produto.Quantidade</td>
+                                                <td>@produto.Unidade</td>
                                             </tr>
                                         }
                                     }
@@ -169,7 +152,7 @@
         </div>
     </div>
 </div>
-<script src="~/js/consultaDoacao.js"></script>
+<script src="~/js/consultaProdutos.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -210,10 +193,10 @@
                 a.className = "page-link";
                 a.textContent = i;
 
-                if (document.URL.includes("Doacoes?")) {
+                if (document.URL.includes("Produtos?")) {
                     a.href = "?page=" + i;
                 } else {
-                    a.href = "Doacoes?page=" + i;
+                    a.href = "Produtos?page=" + i;
                 }
 
                 if (i === currentPage) {

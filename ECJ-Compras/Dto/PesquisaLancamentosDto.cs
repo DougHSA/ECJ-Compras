@@ -5,11 +5,18 @@ namespace ECJ_Compras.Dto
 {
     public class PesquisaLancamentosDto
     {
-        public string EquipePessoa { get; set; }
+        public string Descricao { get; set; } = null!;
+
+        public string Tipo { get; set; } = null!;
+
         public DateTime? DataInicio { get; set; }
+
         public DateTime? DataFim { get; set; }
-        public string CategoriaProduto { get; set; } = string.Empty;
-        public double QuantidadeProduto { get; set; } = 0;
-        public string UnidadeProduto { get; set; } = string.Empty;
+
+        public string MetodoPagamento { get; set; } = null!;
+
+        public string? Autor { get; set; }
+        public string? Ordenar { get; set; }
+        public bool OrdenarDecrescente { get; set; }
     }
 }
