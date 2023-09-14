@@ -49,6 +49,9 @@ namespace ECJ_Compras.Services
                         case "Produto":
                             doacoes = doacoes.OrderByDescending(d => d.Produto);
                             break;
+                        case "Quantidade":
+                            doacoes = doacoes.OrderByDescending(d => d.Quantidade);
+                            break;
                         default:
                             break;
                     }
@@ -65,6 +68,9 @@ namespace ECJ_Compras.Services
                             break;
                         case "Produto":
                             doacoes = doacoes.OrderBy(d => d.Produto);
+                            break;
+                        case "Quantidade":
+                            doacoes = doacoes.OrderBy(d => d.Quantidade);
                             break;
                         default:
                             break;
@@ -164,7 +170,7 @@ namespace ECJ_Compras.Services
             }
             if (!string.IsNullOrEmpty(produtosDto.Unidade))
             {
-                produtos = produtos.Where(d => d.Unidade.Contains(produtosDto.Unidade));
+                produtos = produtos.Where(d => d.Unidade != null && d.Unidade.Contains(produtosDto.Unidade));
             }
             if (!string.IsNullOrEmpty(produtosDto.Quantidade))
             {

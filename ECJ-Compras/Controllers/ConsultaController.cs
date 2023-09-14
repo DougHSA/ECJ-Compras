@@ -85,7 +85,7 @@ namespace ECJ_Compras.Controllers
         }
         public IActionResult BuscarOrdenacaoDoacao()
         {
-            string[] result = {"Equipe","Produto","Data"};
+            string[] result = {"Equipe","Produto","Data", "Quantidade"};
             Array.Sort(result);
 
             return Json(result);
@@ -135,6 +135,10 @@ namespace ECJ_Compras.Controllers
             ViewBag.Autorizacao = role;
 
             var equipes = _consultaService.BuscarPontos();
+            foreach ( var equipe in equipes )
+            {
+                equipe.Pontos += equipe.PontosAdicionais;
+            }
             if (equipes.Any())
             {
                 ViewBag.ListaEquipes = equipes.OrderByDescending(p=>p.Pontos);

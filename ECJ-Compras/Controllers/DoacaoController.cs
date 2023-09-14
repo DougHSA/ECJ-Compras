@@ -86,6 +86,8 @@ namespace ECJ_Compras.Controllers
         }
         public IActionResult BuscarUnidade(string produto)
         {
+            if(produto == null)
+                return Json(null);
             string result = _doacaoService.BuscarUnidade(produto);
 
             return Json(result);

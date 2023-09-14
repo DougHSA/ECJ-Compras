@@ -72,17 +72,23 @@
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-body">
                     <form action="Produtos" method="GET">
+                        <div class="form-row" style="justify-content:flex-start;">
+                            <div class="form-group col-md-4" style="align-self:baseline;">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(l=>l.Categoria,"Produto", new{@class="form-label"})
+                                    <select class="form-select" id="buscarProdutosConsulta" name="Categoria">
+                                        <option value="">Selecione um produto</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3" style="align-self:baseline;">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(l=>l.Quantidade,"Quantidade", new{@class="form-label"})
+                                    @Html.TextBoxFor(l=>l.Quantidade, new {@class="form-control", @type="number", @min="0"})
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-row">
-                            <div class="form-group col-md-3" style="align-self:baseline;">
-                                @Html.LabelFor(l=>l.Categoria,"Produto", new{@class="form-label"})
-                                <select class="form-select" id="buscarProdutosConsulta" name="Categoria">
-                                    <option value="">Selecione um produto</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3" style="align-self:baseline;">
-                                @Html.LabelFor(l=>l.Quantidade,"Quantidade", new{@class="form-label"})
-                                @Html.TextBoxFor(l=>l.Quantidade, new {@class="form-control", @type="number", @min="0"})
-                            </div>
                             <div class="form-group col-md-3" style="flex-direction:column;">
                                 <div class="form-row" style="width:100%;>
                                     @Html.LabelFor(d=>d.Ordenar,"Ordenar por", new{@class="form-label", @style="align-self: center;"})

@@ -74,21 +74,25 @@
                     <form action="InserirEntrada" method="post">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="descricao" class="form-label">Descrição</label>
-                                <input type="text" class="form-control" id="descricao" name="Descricao" required>
+                                <div class="form-row" style="width:100%;">
+                                    <label for="descricao" class="form-label">Descrição</label>
+                                    <input type="text" class="form-control" id="descricao" name="Descricao" required>
+                                </div>
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="valor" class="form-label">Valor</label>
-                                <input type="text" class="form-control" id="valor" name="Valor" required>
+                                <div class="form-row" style="width:100%;">
+                                    <label for="valor" class="form-label">Valor</label>
+                                    <input type="text" class="form-control" id="valor" name="Valor" required>
+                                </div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="metodoPagamento" class="form-label">Pagamento</label>
-                                <select class="form-select" id="metodoPagamento" name="MetodoPagamento" required>
-                                    <option value="">Selecione um método</option>
-                                </select>
+                                <div class="form-row" style="width:100%;">
+                                    <label for="metodoPagamento" class="form-label">Pagamento</label>
+                                    <select class="form-select" id="metodoPagamento" name="MetodoPagamento" required>
+                                        <option value="">Selecione um método</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                         <button type="reset" onclick="limpar()" class="btn btn-light">Limpar</button>
@@ -172,8 +176,7 @@
             let itemsPerPage = 5;
             let totalPages = Math.ceil(tabelaCountValor / itemsPerPage);
             let currentPage = 1;
-            if (document.URL.includes("?page="))
-            {
+            if (document.URL.includes("?page=")) {
                 currentPage = parseInt(document.URL.replace("#", "").substring(document.URL.lastIndexOf("=") + 1))
             }
 

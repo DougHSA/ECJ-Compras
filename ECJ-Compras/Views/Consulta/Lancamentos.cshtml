@@ -73,37 +73,49 @@
                 <div class="card-body">
                     <form action="Lancamentos" method="GET">
                         <div class="form-row">
-                            <div class="form-group col-md-3">
-                                @Html.LabelFor(l=>l.Descricao,"Descrição", new{@class="form-label"})
-                                @Html.TextBoxFor(l=>l.Descricao, new {@class="form-control"})
+                            <div class="form-group col-md-4">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(l=>l.Descricao,"Descrição", new{@class="form-label"})
+                                    @Html.TextBoxFor(l=>l.Descricao, new {@class="form-control"})
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(l=>l.Tipo,"Tipo", new{@class="form-label"})
+                                    <select class="form-select" id="tipoLancamentoConsulta" name="Tipo">
+                                        <option value="">Selecione um tipo</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group col-md-3">
-                                @Html.LabelFor(l=>l.Tipo,"Tipo", new{@class="form-label"})
-                                <select class="form-select" id="tipoLancamentoConsulta" name="Tipo">
-                                    <option value="">Selecione um tipo</option>
-                                </select>
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(l=>l.MetodoPagamento,"Pagamento", new{@class="form-label"})
+                                    <select class="form-select" id="metodoPagamentoConsulta" name="MetodoPagamento">
+                                        <option value="">Selecione um pagamento</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group col-md-3">
-                                @Html.LabelFor(l=>l.MetodoPagamento,"Pagamento", new{@class="form-label"})
-                                <select class="form-select" id="metodoPagamentoConsulta" name="MetodoPagamento">
-                                    <option value="">Selecione um pagamento</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                @Html.LabelFor(l=>l.Autor,"Autor", new{@class="form-label"})
-                                <select class="form-select" id="autorConsulta" name="Autor">
-                                    <option value="">Selecione um autor</option>
-                                </select>
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(l=>l.Autor,"Autor", new{@class="form-label"})
+                                    <select class="form-select" id="autorConsulta" name="Autor">
+                                        <option value="">Selecione um autor</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-row" style="justify-content:space-between;">
-                            <div class="form-group col-md-3 justify-content-center">
-                                @Html.LabelFor(d=>d.DataInicio,"De", new{@class="form-label"})
-                                <input type="date" id="DataInicio" name="DataInicio" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Início" @*style="width: 150px;"onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                        <div class="form-row" style="justify-content: unset;">
+                            <div class="form-group col-md-2">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(d=>d.DataInicio,"De", new{@class="form-label"})
+                                    <input type="date" id="DataInicio" name="DataInicio" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Início" @*style="width: 150px;"onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                                </div>
                             </div>
-                            <div class="form-group col-md-3 justify-content-center">
-                                @Html.LabelFor(d=>d.DataFim,"Até", new{@class="form-label"})
-                                <input type="date" id="DataFim" name="DataFim" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Fim" @*style="width: 150px;" onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                            <div class="form-group col-md-2">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(d=>d.DataFim,"Até", new{@class="form-label"})
+                                    <input type="date" id="DataFim" name="DataFim" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Fim" @*style="width: 150px;" onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                                </div>
                             </div>
                         </div>
                         <div class="form-row" style="justify-content:space-between;">
