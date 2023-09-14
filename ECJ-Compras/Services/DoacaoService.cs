@@ -33,7 +33,6 @@ namespace ECJ_Compras.Services
                 throw new Exception("Não foi possível adicionar Doação");
 
             produto.Quantidade += doacaoDto.QuantidadeProduto;
-
             var doacao = new Doacao()
             {
                 Data = DateTime.Now,
@@ -49,6 +48,7 @@ namespace ECJ_Compras.Services
                             .GroupBy(p => p.Produto.Categoria)
                             .ToList();
             equipe.Pontos = 0;
+            equipe.PontosAdicionais += (Math.Floor(doacaoDto.QuantidadeProduto / produto.QuantidadeMinimaParaPontos) * produto.Pontos) * (doacaoDto.FatorDeMultiplicacao - 1);
             foreach (var grupo in doacoes)
             {
                 var qt = grupo.Sum(q => q.Quantidade);

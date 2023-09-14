@@ -1,10 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Doação";
+﻿@using System.Globalization;
+@{
+    ViewData["Title"] = "Consulta de Lançamentos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model ECJ_Compras.Dto.DoacaoDto
+@model ECJ_Compras.Dto.PesquisaLancamentosDto
 <head>
-    <link rel="stylesheet" href="~/css/doacao.css" />
+    <link rel="stylesheet" href="~/css/lancamento.css" />
+    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <style>
         .titulo {
             display: flex;
@@ -15,11 +21,6 @@
 
         .principal {
             display: block;
-            width: 85%;
-            position: relative;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,0)
         }
 
         .card {
@@ -64,51 +65,82 @@
 
 <div class="text-center">
     <div class="titulo">
-        <h1>Doação</h1>
+        <h1>Consulta de Lançamentos</h1>
     </div>
     <div>
         <div class="principal">
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-body">
-                    <form action="/Doacao/InserirDoacao" method="post">
+                    <form action="Lancamentos" method="GET">
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <div class="form-row" style="width:100%;">
-                                    @Html.LabelFor(d=>d.EquipePessoa,"Equipe", new{@class="form-label"})
-                                    <select class="form-select" id="equipePessoa" name="EquipePessoa" required>
-                                        <option value="">Selecione uma equipe</option>
+                                    @Html.LabelFor(l=>l.Descricao,"Descrição", new{@class="form-label"})
+                                    @Html.TextBoxFor(l=>l.Descricao, new {@class="form-control"})
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(l=>l.Tipo,"Tipo", new{@class="form-label"})
+                                    <select class="form-select" id="tipoLancamentoConsulta" name="Tipo">
+                                        <option value="">Selecione um tipo</option>
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <div class="form-row" style="width:100%;">
-                                    @Html.LabelFor(d=>d.CategoriaProduto,"Categoria", new{@class="form-label"})
-                                    <select class="form-select" id="categoriaProduto" name="CategoriaProduto" required>
-                                        <option value="">Selecione um produto</option>
+                                    @Html.LabelFor(l=>l.MetodoPagamento,"Pagamento", new{@class="form-label"})
+                                    <select class="form-select" id="metodoPagamentoConsulta" name="MetodoPagamento">
+                                        <option value="">Selecione um pagamento</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group col-md-1">
+                            <div class="form-group col-md-3">
                                 <div class="form-row" style="width:100%;">
-                                    @Html.LabelFor(d=>d.QuantidadeProduto,"Quantidade", new{@class="form-label"})
-                                    @Html.TextBoxFor(d=>d.QuantidadeProduto,"", new{@class="form-control"})
-                                </div>
-                            </div>
-                            <div class="form-group col-md-1">
-                                <div class="form-row" style="width:100%;">
-                                    @Html.LabelFor(d=>d.UnidadeProduto,"Unidade", new{@class="form-label"})
-                                    @Html.TextBoxFor(d=>d.UnidadeProduto,"", new{@class="form-control",@readonly=true})
-                                </div>
-                            </div>
-                            <div class="form-group col-md-1">
-                                <div class="form-row" style="width:100%;">
-                                    @Html.LabelFor(d=>d.FatorDeMultiplicacao,"Fator", new{@class="form-label"})
-                                    @Html.TextBoxFor(d=>d.FatorDeMultiplicacao,"", new{@class="form-control",@onkeydown="validarEntrada(event)"})
+                                    @Html.LabelFor(l=>l.Autor,"Autor", new{@class="form-label"})
+                                    <select class="form-select" id="autorConsulta" name="Autor">
+                                        <option value="">Selecione um autor</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="form-row" style="justify-content: unset;">
+                            <div class="form-group col-md-2">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(d=>d.DataInicio,"De", new{@class="form-label"})
+                                    <input type="date" id="DataInicio" name="DataInicio" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Início" @*style="width: 150px;"onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <div class="form-row" style="width:100%;">
+                                    @Html.LabelFor(d=>d.DataFim,"Até", new{@class="form-label"})
+                                    <input type="date" id="DataFim" name="DataFim" data_val="true" data_val_date="A data é inválida" data_val_date_format="dd/MM/yyyy" class="form-control datepicker" placeholder="Data Fim" @*style="width: 150px;" onkeypress="return onlyNumberAndSlash(event, this);"*@ />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row" style="justify-content:space-between;">
+                            <div class="form-group col-md-3" style="flex-direction:column;">
+                                <div class="form-row" style="width:100%;>
+                                    @Html.LabelFor(d=>d.Ordenar,"Ordenar por", new{@class="form-label", @style="align-self: center;"})
+                                    <select class="form-select" id="ordenarLancamentos" name="Ordenar">
+                                        <option value="">Selecione um valor</option>
+                                    </select>
+                                </div>
+                                <div class="form-row" style="width: 100%;justify-content:space-around">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="OrdenarDecrescente" id="ordenarDecrescenteRB1" value="false" checked>
+                                        <label class="form-check-label" for="OrdenarDecrescente">
+                                            Crescente
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="OrdenarDecrescente" id="ordenarDecrescenteRB2" value="true">
+                                        <label class="form-check-label" for="OrdenarDecrescente">
+                                            Decrescente
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                         <button type="reset" onclick="limpar()" class="btn btn-light">Limpar</button>
@@ -118,39 +150,33 @@
             <div class="card">
                 <div class="card-body" style="padding-top: 0;">
                     <div style="display:flex; justify-content:center; align-items:center; height: 80px;">
-                        <h1 style="margin:0;">Doações</h1>
+                        <h1 style="margin:0;">Lançamentos</h1>
                     </div>
                     <div class="div-tabela">
                         <table class="table table-light table-hover">
                             <thead>
                                 <tr>
-                                    <th hidden="hidden"></th>
-                                    <th>Equipe</th>
+                                    <th>Descrição</th>
+                                    <th style="width:100px;">Valor</th>
+                                    <th>Tipo</th>
+                                    <th>Pagamento</th>
                                     <th>Data</th>
-                                    <th>Produto</th>
-                                    <th>Quantidade</th>
-                                    <th>Unidade</th>
-                                    <th></th>
+                                    <th>Autor</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @{
-                                    if (ViewBag.ListaDoacoes != null)
+                                    if (ViewBag.ListaLancamentos != null)
                                     {
-                                        foreach (var doacao in ViewBag.ListaDoacoes)
+                                        foreach (var lancamento in ViewBag.ListaLancamentos)
                                         {
                                             <tr>
-                                                <td hidden="hidden">@doacao.Id</td>
-                                                <td>@doacao.Equipe.Nome</td>
-                                                <td>@doacao.Data</td>
-                                                <td>@doacao.Produto.Categoria</td>
-                                                <td>@doacao.Quantidade</td>
-                                                <td>@doacao.Produto.Unidade</td>
-                                                <td>
-                                                    <a href="/Doacao/DeletarDoacao/@doacao.Id">
-                                                        <i class="fas fa-times-circle" style="color: red;"></i>
-                                                    </a>
-                                                </td>
+                                                <td>@lancamento.Descricao</td>
+                                                <td>@string.Format(new CultureInfo("pt-BR"),"{0:C}",lancamento.Valor)</td>
+                                                <td>@lancamento.Tipo</td>
+                                                <td>@lancamento.MetodoPagamento</td>
+                                                <td>@lancamento.Data</td>
+                                                <td>@lancamento.Usuario.Nome</td>
                                             </tr>
                                         }
                                     }
@@ -168,22 +194,25 @@
         </div>
     </div>
 </div>
-<script src="~/js/doacao.js"></script>
+<script src="~/js/consultaLancamento.js"></script>
+
 <script>
-    function validarEntrada(event) {
-        const tecla = event.key;
-        const input = event.target;
-        // Permitir números, vírgula (,) e ponto (.)
-        if (!/[0-9,\.]/.test(tecla) && tecla !== "Backspace") {
-            event.preventDefault();
-        }
-        // Verificar se já existe um ponto (.) ou vírgula (,) no campo
-        if ((tecla === "." || tecla === ",") && (input.value.includes(".") || input.value.includes(","))) {
-            event.preventDefault();
-        }
-    }
     $(document).ready(function () {
-        $('#FatorDeMultiplicacao').val("1");
+        var campoValor = $('#valor');
+        campoValor.val('R$ 0,00');
+
+        campoValor.on('input', function () {
+            var valor = campoValor.val().replace(/\D/g, '');
+
+            var valorFormatado = (parseFloat(valor) / 100).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            campoValor.val(valorFormatado);
+        });
+
+
         let paginationElement = document.getElementById('pagination');
         let tabelaCount = $("#tabela-count")[0];
         let tabelaCountValor = parseInt(tabelaCount.innerText);
@@ -193,6 +222,7 @@
         if (document.URL.includes("?page=")) {
             currentPage = parseInt(document.URL.replace("#", "").substring(document.URL.lastIndexOf("=") + 1))
         }
+
         function updatePagination() {
             paginationElement.innerHTML = "";
 
@@ -205,10 +235,10 @@
                 a.className = "page-link";
                 a.textContent = i;
 
-                if (document.URL.includes("Index?")) {
+                if (document.URL.includes("Lancamentos?")) {
                     a.href = "?page=" + i;
                 } else {
-                    a.href = "Index?page=" + i;
+                    a.href = "Lancamentos?page=" + i;
                 }
 
                 if (i === currentPage) {

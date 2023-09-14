@@ -9,5 +9,6 @@ namespace ECJ_Compras.Dto
         public string CategoriaProduto { get; set; } = string.Empty;
         public double QuantidadeProduto { get; set; } = 0;
         public string UnidadeProduto { get; set; } = string.Empty;
+        public double FatorDeMultiplicacao { get; set; } = 1;
     }
 }

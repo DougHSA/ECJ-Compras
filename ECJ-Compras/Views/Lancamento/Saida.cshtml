@@ -59,7 +59,6 @@
             border: solid;
         }
 
-
     </style>
 </head>
 
@@ -74,21 +73,25 @@
                     <form action="InserirSaida" method="post">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="descricao" class="form-label">Descrição</label>
-                                <input type="text" class="form-control" id="descricao" name="Descricao" required>
+                                <div class="form-row" style="width:100%;">
+                                    <label for="descricao" class="form-label">Descrição</label>
+                                    <input type="text" class="form-control" id="descricao" name="Descricao" required>
+                                </div>
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="valor" class="form-label">Valor</label>
-                                <input type="text" class="form-control" id="valor" name="Valor" required>
+                                <div class="form-row" style="width:100%;">
+                                    <label for="valor" class="form-label">Valor</label>
+                                    <input type="text" class="form-control" id="valor" name="Valor" required>
+                                </div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="metodoPagamento" class="form-label">Pagamento</label>
-                                <select class="form-select" id="metodoPagamento" name="MetodoPagamento" required>
-                                    <option value="">Selecione um método</option>
-                                </select>
+                                <div class="form-row" style="width:100%;">
+                                    <label for="metodoPagamento" class="form-label">Pagamento</label>
+                                    <select class="form-select" id="metodoPagamento" name="MetodoPagamento" required>
+                                        <option value="">Selecione um método</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                         <button type="reset" class="btn btn-light">Limpar</button>
@@ -99,7 +102,7 @@
                 <div class="card-body" style="padding-top: 0;">
                     <div style="display:flex; justify-content:center; align-items:center; height: 80px;">
                         <h1 style="margin:0;">Suas Saídas</h1>
-                        <i class="fas fa-arrow-down" style="color: red; font-size: 33px; margin-right:10px;"></i>
+                        <i class="fas fa-arrow-down" style="color: red; font-size: 33px; margin-left:10px;"></i>
                     </div>
                     <div class="div-tabela">
                         <table class="table table-light table-hover">
@@ -169,7 +172,7 @@
             let totalPages = Math.ceil(tabelaCountValor / itemsPerPage);
             let currentPage = 1;
             if (document.URL.includes("?page=")) {
-                currentPage = parseInt(document.URL.replace("#","").substring(document.URL.lastIndexOf("=") + 1))
+                currentPage = parseInt(document.URL.replace("#", "").substring(document.URL.lastIndexOf("=") + 1))
             }
 
             function updatePagination() {
