@@ -27,9 +27,13 @@ public partial class EjcContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<Venda> Vendas { get; set; }
+
+    public virtual DbSet<ProdutoVenda> ProdutosVenda { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("workstation id=ejc-compras.mssql.somee.com;packet size=4096;user id=EJC-Compras_SQLLogin_1;pwd=ea177ec8yu;data source=ejc-compras.mssql.somee.com;persist security info=False;initial catalog=ejc-compras;TrustServerCertificate=true;");
-        //=> optionsBuilder.UseSqlServer("Data Source=DESKTOP-J4P1J3V;Database=EJC;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true;");
+        //=> optionsBuilder.UseSqlServer("workstation id=ejc-compras.mssql.somee.com;packet size=4096;user id=EJC-Compras_SQLLogin_1;pwd=ea177ec8yu;data source=ejc-compras.mssql.somee.com;persist security info=False;initial catalog=ejc-compras;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-J4P1J3V;Database=EJC;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +48,19 @@ public partial class EjcContext : DbContext
             entity.HasOne(d => d.Produto).WithMany(p => p.Doacoes)
                 .HasForeignKey(d => d.IdProduto)
                 .HasConstraintName("FK_Doacoes_Produtos");
+        });
+        
+        modelBuilder.Entity<Venda>(entity =>
+        {
+            entity.Property(e => e.Data).HasColumnType("datetime");
+
+            //entity.HasOne(d => d.Usuario).WithMany(p => p.Vendas)
+            //    .HasForeignKey(d => d.IdUsuario)
+            //    .HasConstraintName("FK_Venda_Usuario");
+
+            entity.HasOne(d => d.ProdutoVenda).WithMany(p => p.Vendas)
+                .HasForeignKey(d => d.IdProdutoVenda)
+                .HasConstraintName("FK_Venda_ProdutoVenda");
         });
 
         modelBuilder.Entity<Equipe>(entity =>
@@ -61,6 +78,19 @@ public partial class EjcContext : DbContext
             entity.Property(e => e.Unidade)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<ProdutoVenda>(entity =>
+        {
+            entity.Property(e => e.Consignado)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            
+            entity.Property(e => e.Descricao)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
+            entity.Property(e => e.Preco).HasColumnType("decimal(20, 2)");
         });
 
         modelBuilder.Entity<Transacao>(entity =>

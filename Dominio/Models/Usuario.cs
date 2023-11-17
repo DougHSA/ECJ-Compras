@@ -16,4 +16,5 @@ public partial class Usuario
     public string Nivel { get; set; } = null!;
 
     public virtual ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
+    //public virtual ICollection<Venda> Vendas { get; set; } = new List<Venda>();
 }

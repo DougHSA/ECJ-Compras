@@ -56,6 +56,7 @@ namespace ECJ_Compras
             services.AddScoped<ITransacaoService, TransacaoService>();
             services.AddScoped<IDoacaoService, DoacaoService>();
             services.AddScoped<IConsultaService, ConsultaService>();
+            services.AddScoped<IVendaService, VendaService>();
 
 
             services.AddControllersWithViews();

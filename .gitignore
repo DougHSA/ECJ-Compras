@@ -97,3 +97,4 @@ _ReSharper*/
 /Dominio/obj/Debug/net6.0/Dominio.pdb
 /ECJ-Compras/bin/Debug/net6.0/Dominio.dll
 /ECJ-Compras/bin/Debug/net6.0/Dominio.pdb
+*.user
